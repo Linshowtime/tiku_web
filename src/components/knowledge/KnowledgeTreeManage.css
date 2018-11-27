@@ -1,0 +1,13 @@
+.row{
+  border-top:1px solid #EBEBEB;
+  min-height: 55px;
+  line-height: 55px;
+}
+
+.add{
+  text-align: left;
+}
+.inline-input{
+  width: 50%;
+  float: left
+}

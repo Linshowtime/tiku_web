@@ -1,0 +1,28 @@
+.el-row {
+  margin-bottom: 5px;
+}
+
+.grid-content {
+  border-radius: 0px;
+  min-height: 30px;
+  text-align: center;
+  margin-top: 15px;
+  color: white;
+  vertical-align:middle;
+}
+
+.tab-header{
+  background-color: #008CD7;
+}
+
+.active{
+  background-color: #07579E;
+  #min-height: 52px;
+}
+
+.topActive{
+  background-color:#008CD7;
+  #min-height: 52px;
+color: white   !important;
+  padding: 10px 15px;
+}

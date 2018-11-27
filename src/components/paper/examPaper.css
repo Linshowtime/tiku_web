@@ -1,0 +1,47 @@
+.text {
+  font-size: 16px;
+}
+
+.item {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
+
+.box-card {
+  width: 100%;
+}
+
+
+.serachTextButton{
+  color: #000;
+}
+
+.row{
+  border-top:1px solid #EBEBEB;
+  min-height: 55px;
+  line-height: 55px;
+}
+
+.leftItem:hover{
+  background-color: #ECF5FF;
+}
+.leftItem{
+}
+.leftItemClick{
+  background-color: #ECF5FF;
+}
+
+
+.paperShow{
+  display: block;
+  margin-top: 10px;
+}
