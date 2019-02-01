@@ -111,6 +111,7 @@
               password: this.LoginForm.password
             }
             // 调用axios登录接口
+            this.$router.push('/knowledgeSubject')
           } else {
             console.log('submit err')
           }
