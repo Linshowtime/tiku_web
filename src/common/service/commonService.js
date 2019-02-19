@@ -68,12 +68,35 @@ export function login(param) {
     data: param
   })
 }
-
+export function register(param) {
+  return fetch({
+    url: _global.requestUrl.registerUrl,
+    method: 'post',
+    data: param
+  })
+}
+export function sendMsg(param) {
+  return fetch({
+    url: _global.requestUrl.sendMsgUrl,
+    method: 'post',
+    data: param
+  })
+}
+export function validateNum(param) {
+  return fetch({
+    url: _global.requestUrl.validateNumUrl,
+    method: 'post',
+    data: param
+  })
+}
 export default {
   getTopSubject,
   getStages,
   getStageSubjectIdByStageAndSubject,
   getStageByGrade,
   getAllAreas,
-  login
+  login,
+  register,
+  sendMsg,
+  validateNum
 }

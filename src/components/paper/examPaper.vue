@@ -1,6 +1,6 @@
 <template>
   <div>
-  <headcommon v-bind:initIndex="3" v-bind:manageIndex="0"></headcommon>
+  <headcommon v-bind:initIndex="3" v-bind:manageIndex="1"></headcommon>
     <el-row :gutter="20">
 
       <el-col :span="18" offset="3">

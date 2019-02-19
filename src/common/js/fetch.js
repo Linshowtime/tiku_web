@@ -1,5 +1,6 @@
 import axios from 'axios';//引入axios
-
+import Vue from 'vue';
+import router from '@/router';
 export function fetch(options) {
   return new Promise((resolve, reject) => {
     const instance = axios.create({  //instance创建一个axios实例，可以自定义配置，可在 axios文档中查看详情
@@ -13,6 +14,7 @@ export function fetch(options) {
     // 请求时的拦截
     instance.interceptors.request.use(function (config) {
       // 发送请求之前做一些处理
+
       return config;
     }, function (error) {
       // 当请求异常时做一些处理
@@ -21,17 +23,22 @@ export function fetch(options) {
 
     // 响应时拦截
     instance.interceptors.response.use(function (response) {
-      // 返回响应时做一些处理
-      if(response.data.resultCode=='0000'){
-        return response.data.data;
-      }else {
+      // // 返回响应时做一些处理
+      // if(response.data.resultCode=='0000'){
+      //   return response.data.data;
+      // }else {
+      //
+      //   if(response.data.hasOwnProperty("result")){
+      //     return response.data.result;
+      //   }
+      //   return null;
+      // }
+      if (response.data && response.data.code === 4) { // 401, token失效
 
-        if(response.data.hasOwnProperty("result")){
-          return response.data.result;
-        }
-        return null;
+        router.push({name: 'login'})
       }
-      //return response;
+      return response;
+
     }, function (error) {
       // 当响应异常时做一些处理
       return Promise.reject(error);

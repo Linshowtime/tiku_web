@@ -15,7 +15,10 @@ export const requestUrl = {
   //根据学段，学科获取学段学科id
   getStageSubjectIdUrl: process.env.Paper_Service_URL + "/api/common/findSegmentCourseIds",
 
-  loginUrl: process.env.BASE_URL+"/api/common/login",
+  loginUrl: process.env.Human_Service_URL+"/user/api/login",
+  registerUrl:  process.env.Human_Service_URL+"/user/api/register" ,
+  sendMsgUrl:    process.env.Human_Service_URL+"/message/api/sendMsg",
+  validateNumUrl:    process.env.Human_Service_URL+"/message/api/validateNum",
 
   //分页查询题目
   questionSearchUrl: process.env.Subject_Service_URL + '/subject/api/getSubjectsByPage/',

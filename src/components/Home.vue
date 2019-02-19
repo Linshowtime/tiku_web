@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headcommon v-bind:initIndex="1"v-bind:manageIndex="2"></headcommon>
+    <headcommon v-bind:initIndex="1"v-bind:manageIndex="1"></headcommon>
     <productpaper></productpaper>
   </div>
 </template>

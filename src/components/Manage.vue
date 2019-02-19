@@ -67,7 +67,7 @@
             this.$router.push('/')
             break;
           case '3':
-            this.$router.push('/')
+            this.$router.push('/user');
             break;
           case '4':
             this.$router.push('/KnowledgeManage');

@@ -1,6 +1,5 @@
 <template>
   <div >
-
   <el-main  :style="note">
     <el-form
       :model="LoginForm"
@@ -10,11 +9,11 @@
       class="login-form">
       <h3>用户登录/题库</h3>
 
-      <el-form-item prop="username">
+      <el-form-item prop="registerNo">
         <el-input
           type="text"
-          v-model="LoginForm.username"
-          placeholder="username" >
+          v-model="LoginForm.registerNo"
+          placeholder="用户名" >
         </el-input>
       </el-form-item>
 
@@ -22,14 +21,14 @@
         <el-input
           type="password"
           v-model="LoginForm.password"
-          placeholder="password" >
+          placeholder="密码" >
         </el-input>
       </el-form-item>
       <el-form-item prop="role">
         <el-radio-group v-model="LoginForm.role">
-          <el-radio :label="1">管理员</el-radio>
-          <el-radio :label="2">学生</el-radio>
-          <el-radio :label="3">教师</el-radio>
+          <el-radio :label="0">学生</el-radio>
+          <el-radio :label="1">教师</el-radio>
+          <el-radio :label="2">管理员</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item >
@@ -61,6 +60,7 @@
 </template>
 
 <script>
+  import CommonService from '@/common/service/commonService'
   export default {
     data () {
       return {
@@ -73,13 +73,13 @@
 
         },
         LoginForm: {
-          username: '',
+          registerNo: '',
           password: '',
           role:2
         },
         logining: false,
         rule: {
-          username: [
+          registerNo: [
             {
               required: true,
               max: 14,
@@ -107,21 +107,32 @@
             // console.log('开始请求后台数据，验证返回之类的操作！')
             // 登录作为参数的用户信息
             let LoginParams = {
-              username: this.LoginForm.username,
-              password: this.LoginForm.password
+              registerNo: this.LoginForm.registerNo,
+              password: this.LoginForm.password,
+              role: this.LoginForm.role
             }
             // 调用axios登录接口
-            this.$router.push('/knowledgeSubject')
+            CommonService.login(LoginParams).then(res=>{
+              if(res.data.code==0){
+                if(LoginParams.role==2){
+                  this.$router.push('/knowledgeSubject')
+                }
+              }
+              else{
+                alert(res.data.msg)
+              }
+            })
           } else {
             console.log('submit err')
           }
+          this.logining = false
         })
       },
       reset () {
         this.$refs.LoginForm.resetFields()
       },
       toregin () {
-        this.$router.push('/regin')
+        this.$router.push('/register')
       }
     }
   }

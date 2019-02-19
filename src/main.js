@@ -9,7 +9,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import echarts from 'echarts'
 import draggable from 'vuedraggable'
 import _global from '@/common/js/GlobalParams'
-
 Vue.prototype.$ajax = axios
 Vue.prototype.$echarts = echarts
 Vue.prototype._global = _global

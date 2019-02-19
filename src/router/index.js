@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
+import Home from '@/components/Home'
+import Register from '@/components/Register'
 import KnowledgeSubject from '@/components/knowledge/knowledgeSubject'
 import ProductPaper from '@/components/paper/productPaper'
 import PaperEdit from '@/components/paper/paperEdit'
@@ -9,6 +11,7 @@ import examPaper from '@/components/paper/examPaper'
 import manage from '@/components/Manage'
 import KnowledgeManage from '@/components/knowledge/KnowledgeManage'
 import knowledgeTreeManage from '@/components/knowledge/KnowledgeTreeManage'
+import User from '@/components/user/User'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -16,6 +19,16 @@ export default new Router({
       path: '/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
     },
     {
       path: '/knowledgeSubject',
@@ -56,6 +69,11 @@ export default new Router({
           path: '/knowledgeTreeManage',
           name: 'knowledgeTreeManage',
           component: knowledgeTreeManage
+        },
+        {
+          path: '/user',
+          name: 'user',
+          component: User
         }
       ]
     },
