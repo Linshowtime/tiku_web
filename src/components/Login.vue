@@ -33,7 +33,7 @@
       </el-form-item>
       <el-form-item >
         <el-button
-          type="danger"
+          type="primary"
           class="submitBtn"
           round
           @click.native.prevent="submit"
@@ -41,7 +41,7 @@
           登录
         </el-button>
         <el-button
-          type="primary"
+          type="danger"
           class="resetBtn"
           round
           @click.native.prevent="reset">
@@ -68,9 +68,7 @@
           backgroundImage: "url(" + require("../../static/imgs/timg.jpg") + ")",
           backgroundRepeat: "no-repeat",
           backgroundPosition:"center",
-          backgroundAttachment:"fixed",
-
-
+          backgroundAttachment:"absolute",
         },
         LoginForm: {
           registerNo: '',
@@ -148,6 +146,7 @@
     padding: 30px 30px 0 30px;
     border-radius: 25px;
     margin-left: 65%;
+    position: relative;
 
   }
   .submitBtn {

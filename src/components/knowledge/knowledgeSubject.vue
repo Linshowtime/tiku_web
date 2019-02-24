@@ -414,31 +414,16 @@
           })
 
         }
-
-        let courseurl = process.env.BASE_URL + "/api/common/findAllTopCourses";
-        this.$ajax.get(courseurl).then(res => {
-          if (res.data.resultCode == '0000') {
-            this.subjects = res.data.data;
-          }
-        });
-        let segmenturl = process.env.BASE_URL + "/api/common/findAllBaseSegments";
-        this.$ajax.get(segmenturl).then(res => {
-          if (res.data.resultCode == '0000') {
-            this.studySections = res.data.data;
-            this.search()
-          }
-        });
-
-
         //获取学科
         commonService.getTopSubject().then( res => {
           this.subjects = res;
+
         })
         //获取学段
         commonService.getStages().then(res => {
-         this.studySections = res
+         this.studySections = res;
         })
-
+        this.search()
 
       }
     }

@@ -7,7 +7,7 @@ export const requestUrl = {
   //根据年级获取学段
   getStageByGradeUrl: process.env.Paper_Service_URL + '/api/common/findSegmentByGradeId?gradeId=',
   //获取顶级学科
-  getTopSubjectUrl: process.env.BASE_URL + "/api/common/findAllTopCourses",
+  getTopSubjectUrl: process.env.Human_Service_URL + "/course/api/getAllCourse",
   //获取所有年级
   getGradesUrl: process.env.BASE_URL + "/api/common/findAllGrades",
   //获取所有学段
@@ -55,11 +55,11 @@ export const requestUrl = {
   entryPaperEditUrl: process.env.Exam_Web_URL + 'import/teachNet-paperSubject-list?page=1&paperId=',
 
   //根据不同条件查询知识点
-  knowledgeSearchUrl: process.env.Knowledge_Service_URL+'knowledge/api/knowledges/query/',
-  //增加知识点
-  addKnowledgeUrl: process.env.Knowledge_Service_URL+'knowledge/api/knowledges/add',
+  knowledgeSearchUrl: process.env.Knowledge_Service_URL+'query/',
+  //增加知识
+  addKnowledgeUrl: process.env.Knowledge_Service_URL+'add',
   //修改知识点
-  updateKnowledgeUrl: process.env.Knowledge_Service_URL+'knowledge/api/knowledges/update',
+  updateKnowledgeUrl: process.env.Knowledge_Service_URL+'update',
   downloadExcelUrl: process.env.Knowledge_Service_URL+'knowledge/api/downloadExcel',
   //组织机构服务url
   allOrgUrl:process.env.Exam_Web_URL+'org/api/org/query/',

@@ -11,7 +11,10 @@ import examPaper from '@/components/paper/examPaper'
 import manage from '@/components/Manage'
 import KnowledgeManage from '@/components/knowledge/KnowledgeManage'
 import knowledgeTreeManage from '@/components/knowledge/KnowledgeTreeManage'
-import User from '@/components/user/User'
+import StudentManage from '@/components/user/StudentManage'
+import Org from '@/components/org/OrgManage'
+import Student from '@/components/student/student'
+
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -56,6 +59,11 @@ export default new Router({
       component:examPaper
     },
     {
+      path:'/student',
+      name:'student',
+      component:Student
+    },
+    {
       path:'/manage',
       name:'manage',
       component:manage,
@@ -71,9 +79,14 @@ export default new Router({
           component: knowledgeTreeManage
         },
         {
-          path: '/user',
-          name: 'user',
-          component: User
+          path: '/studentmanage',
+          name: 'student',
+          component: StudentManage
+        },
+        {
+          path: '/org',
+          name: 'org',
+          component: Org
         }
       ]
     },

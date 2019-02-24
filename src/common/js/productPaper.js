@@ -55,7 +55,7 @@ export const model = {
 
 export const controller = {
   getCommonAreas: function (allAreas) {
-    var citys = '广州东莞深圳珠海佛山中山南宁上海';
+    var citys = '广州东莞深圳珠海佛山';
     if (allAreas == null || allAreas.length == 0) {
       return [];
     }

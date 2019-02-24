@@ -31,9 +31,8 @@
         </el-col>
         <el-col span="16">
           <el-row>
-            <el-col span="4"><span>知识目录树搜索</span></el-col>
             <el-col span="16">
-              <el-input v-model="queryModel.name"></el-input>
+              <el-input placeholder="请输入知识点目录树关键字" v-model="queryModel.name"></el-input>
             </el-col>
             <el-col span="2">
               <el-button  @click="queryKnowledgeTree()" type="primary">搜索</el-button>

@@ -61,27 +61,22 @@
         this.currentManageType=o;
         switch(o.index){
           case '1':
-            this.$router.push('/');
+            this.$router.push('/org');
             break;
           case '2':
-            this.$router.push('/')
+            this.$router.push('/studentmanage')
             break;
           case '3':
-            this.$router.push('/user');
+            this.$router.push('/teacher')
             break;
           case '4':
             this.$router.push('/KnowledgeManage');
-
             break;
           case '5':
-            this.$router.push('/knowledgeTreeManage')
+            this.$router.push('/knowledgeTreeManage');
 
             break;
           case '6':
-            this.$router.push('/')
-
-            break;
-          case '7':
             this.$router.push('/')
 
             break;

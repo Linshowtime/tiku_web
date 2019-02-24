@@ -12,6 +12,6 @@ module.exports = merge(prodEnv, {
   Tiku_Service_URL: '"http://tikutest.zy.com/testwebseviceserver/"',
   Exam_Web_URL:'"http://tikutest.zy.com/Exam/"',
   Org_Service_URL:'"http://localhost:8081"',
-  Knowledge_Service_URL:'"http://tikutest.zy.com/Exam"',
+  Knowledge_Service_URL:'"http://127.0.0.1:8089/api/knowledge/"',
   PageSize:'"20"'
 })

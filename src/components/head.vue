@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="6" :gutter="1">
        <el-button type="text"  :class="{topActive:ManageIndex == 1}" style="color: black;margin-left:10%;font-size: 15px;"v-on:click="Select(1)">在线组卷</el-button>
-        <el-button type="text"  :class="{topActive:ManageIndex == 2}" style="color: black;margin-left: 10%;font-size: 15px;" v-on:click="Select(2)">试卷导入</el-button>
+        <el-button type="text"  :class="{topActive:ManageIndex == 2}" style="color: black;margin-left: 10%;font-size: 15px;" v-on:click="Select(2)">试卷管理</el-button>
         <el-button type="text" :class="{topActive:ManageIndex == 3}"  style="color: black;margin-left:10%;font-size: 15px;" v-on:click="Select(3)">题库管理</el-button>
       </el-col>
       <el-col :span="4" class="userinfo">

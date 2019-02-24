@@ -48,7 +48,7 @@
       </el-form-item>
       <el-form-item >
         <el-button
-          type="danger"
+          type="primary"
           class="submitBtn"
           round
           @click.native.prevent="submit"
@@ -81,7 +81,7 @@
           backgroundImage: "url(" + require("../../static/imgs/timg.jpg") + ")",
           backgroundRepeat: "no-repeat",
           backgroundPosition:"center",
-          backgroundAttachment:"fixed",
+          backgroundAttachment:"absolute",
         },
         RegisterForm: {
           registerNo: '',
@@ -217,6 +217,7 @@
     padding: 30px 30px 0 30px;
     border-radius: 25px;
     margin-left: 65%;
+    height: 50%;
 
   }
   .submitBtn {
