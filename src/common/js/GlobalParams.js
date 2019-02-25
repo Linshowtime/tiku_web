@@ -2,6 +2,11 @@ export const srcPaper = null
 
 //请求url
 export const requestUrl = {
+  testUrl: process.env.BASE_URL+'/api/auth/get',
+  allOrgUrl: process.env.Human_Service_URL+'/org/api/query/list',
+  addOrgUrl: process.env.Human_Service_URL+'/org/api/add',
+  updateOrgUrl: process.env.Human_Service_URL+ '/org/api/modify',
+  queryOrgUrl: process.env.Human_Service_URL+ '/org/api/query/',
   //获取所有区域
   allAreasUrl: process.env.BASE_URL + '/api/exam/area/findAllAreas',
   //根据年级获取学段
@@ -62,7 +67,7 @@ export const requestUrl = {
   updateKnowledgeUrl: process.env.Knowledge_Service_URL+'update',
   downloadExcelUrl: process.env.Knowledge_Service_URL+'knowledge/api/downloadExcel',
   //组织机构服务url
-  allOrgUrl:process.env.Exam_Web_URL+'org/api/org/query/',
+  //allOrgUrl:process.env.Exam_Web_URL+'org/api/org/query/',
 
   //新增知识目录树
   addKnowledgeTreeUrl: process.env.Exam_Web_URL+'knowledge/api/knowledge-tree/add-use-info',

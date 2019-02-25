@@ -89,6 +89,19 @@ export function validateNum(param) {
     data: param
   })
 }
+
+/**
+ *
+ * @returns {*}
+ */
+export function Connect() {
+  return fetch({
+    url: _global.requestUrl.testUrl,
+    method: 'get',
+    params: null
+  })
+}
+
 export default {
   getTopSubject,
   getStages,
@@ -98,5 +111,6 @@ export default {
   login,
   register,
   sendMsg,
-  validateNum
+  validateNum,
+  Connect
 }

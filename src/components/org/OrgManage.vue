@@ -3,7 +3,7 @@
     <el-card  :body-style="{ padding: '0px' }">
       <el-row style="margin: 5px 10px" class="row">
         <div style="float: left">
-          <el-button style="border: 2px solid #4cafe3; background: #008CD7; border-radius: 5px;color: #EAF6FD;" type="text"   v-on:click="addKnowledge()">
+          <el-button style="border: 2px solid #4cafe3; background: #008CD7; border-radius: 5px;color: #EAF6FD;" type="text"   v-on:click="addOrg()">
             <i class="el-icon-plus"  ></i>增加学校
           </el-button>
         </div>
@@ -42,21 +42,21 @@
             label="学校名"
             min-width="250" align="center">
             <template slot-scope="scope">
-              <span v-if="scope.row.state==1" style="color:darkgray">{{scope.row.name}}</span>
-              <span v-if="scope.row.state==0">{{scope.row.name}}</span>
+              <span v-if="scope.row.status==1" style="color:darkgray">{{scope.row.name}}</span>
+              <span v-if="scope.row.status==0">{{scope.row.name}}</span>
             </template>
           </el-table-column>
           <el-table-column
             label="状态"  min-width="80" align="center">
             <template slot-scope="scope">
-              <span v-if="scope.row.state==1" style="color:darkgray">停用中</span>
-              <span v-if="scope.row.state==0">启用中</span>
+              <span v-if="scope.row.status==1" style="color:darkgray">停用中</span>
+              <span v-if="scope.row.status==0">启用中</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" min-width="120"  align="center">
             <template slot-scope="scope">
               <el-button
-                v-if="scope.row.state==0"
+                v-if="scope.row.status==0"
                 size="mini"
                 type="text"
                 @click="stop(scope.$index, scope.row)" ><span style="color: red;text-decoration-line: underline;font-size: 16px">停用</span></el-button>
@@ -81,10 +81,10 @@
     <el-dialog
       @close="dialogCls"
       :visible.sync="dialogVisible"
-      title="新增知识点"
+      title="新增学校"
       width="30%" :close-on-click-modal="false"
     >
-      <el-input v-model="knowledgeName1" type="textarea" placeholder="请输入学校名字" style="margin-bottom: 15px" @input="changeKnowledge"></el-input>
+      <el-input v-model="knowledgeName1" type="textarea" placeholder="请输入学校名字" style="margin-bottom: 15px" @input="changeOrg"></el-input>
       <el-alert v-if="isError"
                 title="该学校名称已存在"
                 type="error">
@@ -95,14 +95,11 @@
     <!--修改知识点弹窗-->
     <el-dialog
       @close="dialogCls"
-      title="修改知识点"
+      title="修改学校名字"
       :visible.sync="dialogVisible1"
       width="30%" :close-on-click-modal="false"
     >
-      <div style="height: 100%;text-align: left;margin-bottom: 15px">
-        {{subject}}
-      </div>
-      <el-input v-model="knowledgeName1" type="textarea" placeholder="在这里修改知识点"style="margin-bottom: 15px"  @input="changeKnowledge"></el-input>
+      <el-input v-model="knowledgeName1" type="textarea" placeholder="在这里修改学校名称"style="margin-bottom: 15px"  @input="changeOrg"></el-input>
       <el-alert v-if="isError"
                 title="该学校名已存在"
                 type="error">
@@ -114,8 +111,7 @@
 </template>
 
 <script>
-  import commonService from '@/common/service/commonService'
-  import knowledgeService from '@/common/service/knowledgeService'
+  import OrgService from '@/common/service/OrgService'
   import Pager from '@/components/pager'
   export default {
     name: "OrgManage",
@@ -134,23 +130,6 @@
         knowledgeName1:'',
         subject:'',
         isError:false,
-        // tableData:[{
-        //   name: '读写拼音',
-        //   state: '0',
-        //   subject:'语文'
-        // }, {
-        //   name: '字形',
-        //   state: '1',
-        //   subject:'语文'
-        // }, {
-        //   name: '作文',
-        //   state: '1',
-        //   subject:'语文'
-        // }, {
-        //   name: '听力',
-        //   state: '0',
-        //   subject:'英语'
-        // }]
         tableData:[],
         file:'',
         errorText:'',
@@ -175,16 +154,17 @@
       change:function () {
         this.search();
       },
-      addChange:function(){
+      changeOrg:function(){
         var param = {};
         if(this.knowledgeName1.length>0){
           param['name']=this.knowledgeName1;
         }
         param['notLikeName']=1;
-        if(this.courseId1!=''&&this.knowledgeName1!=''){
-          knowledgeService.searchKnowledgeByPage(param,this.currentPage, 5).then(res => {
+
+        if(this.knowledgeName1!=''){
+          OrgService.searchOrgByPage(param,this.currentPage, 5).then(res => {
             if(res!=null){
-              if(res.pages!=0){
+              if(res.data.data.page_total!=0){
                 this.isError=true;
               }
               else{
@@ -195,32 +175,6 @@
               this.isError=false;
             }
 
-          })
-        }
-      },
-      changeKnowledge:function(){
-        var param = {};
-        if (this.courseId1.length > 0) {
-          param['subjectId'] = this.courseId1;
-        }
-        if(this.knowledgeName1.length>0){
-          param['name']=this.knowledgeName1;
-        }
-        param['notLikeName']=1;
-
-        if(this.courseId1!=''&&this.knowledgeName1!=''){
-          knowledgeService.searchKnowledgeByPage(param,this.currentPage, 5).then(res => {
-            if(res!=null){
-              if(res.pages!=0){
-                this.isError=true;
-              }
-              else{
-                this.isError=false;
-              }
-            }
-            else{
-              this.isError=false;
-            }
 
           })
         }
@@ -228,70 +182,27 @@
           this.isError=false;
         }
       },
-      mutiplyUse:function(){
-        this.dialogVisible3=true;
-      },
-      mutiplyStop:function(){
-        this.dialogVisible4=true;
-      },
       search:function () {
-        knowledgeService.searchKnowledgeByPage(this.getParam(),this.currentPage, 5).then(res => {
+        OrgService.searchOrgByPage(this.getParam(),this.currentPage, 5).then(res => {
           if (res == null) {
             this.tableData=[];
             this.pages = 0;
           } else {
-            this.tableData=res.list;
-            this.pages = res.pages;
+            console.info(JSON.stringify(res))
+            this.tableData=res.data.data.list;
+            this.pages = res.data.data.page_total;
           }
         })
       },
-      confirm:function(num){
-        if(num==0){
-          for(var i=0;i<this.tableData.length;i++){
-            if(this.multipleSelection.indexOf(this.tableData[i])>-1){
-              this.tableData[i].state=0;
-              var param={};
-              param['id']= this.tableData[i].id;
-              param['state']=1;
-              knowledgeService.updateKnowledge(param).then(res=>{
-                this.dialogVisible3=false;
-              })
-            }
-          }
-        }
-        else if(num==1){
-          for(var i=0;i<this.tableData.length;i++){
-            if(this.multipleSelection.indexOf(this.tableData[i])>-1){
-              this.tableData[i].state=1;
-              var param={};
-              param['id']= this.tableData[i].id;
-              param['state']=1;
-              knowledgeService.updateKnowledge(param).then(res=>{
-                this.dialogVisible4=false;
-              })
-            }
-          }
-        }
-      },
-      addKnowledge:function(){
+      addOrg:function(){
         this.dialogVisible=true;
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-        // for(var i=0;i<this.multipleSelection.length;i++){
-        //   if(this.multipleSelection[i].state==0){
-        //     this.showStop=true;
-        //   }else{
-        //     this.showUse=true;
-        //   }
-        // }
       },
       stop(index, row) {
         this.tableData[index].state=1;
         var param={};
         param['id']=row.id;
         param['state']=1;
-        knowledgeService.updateKnowledge(param).then(res=>{
+        OrgService.updateOrg(param).then(res=>{
 
 
         })
@@ -301,44 +212,30 @@
         var param={};
         param['id']=row.id;
         param['state']=0;
-        knowledgeService.updateKnowledge(param).then(res=>{
+        OrgService.updateOrg(param).then(res=>{
           console.info("修改成功");
         })
       },
       update(index, row) {
-        this.subject='';
         this.updateId=row.id;
-        for(var i=0;i<this.courses.length;i++){
-          if(row.subjectId==this.courses[i].id){
-            this.subject=this.courses[i].name;
-          }
-        }
         this.knowledgeName1=row.name;
-        this.courseId1=row.subjectId;
         this.dialogVisible1=true;
       },
       nextPage:function (index) {
         this.currentPage = index;
         this.search();
       },
-      save(courseId,knowledgeName){
+      save(knowledgeName){
         var param={};
-        if (courseId.length > 0) {
-          param['subjectId'] = courseId;
-        }else{
-          alert("请选择学科");
-          return;
-        }
         if(knowledgeName.length>0){
           param['name']=knowledgeName;
         }else{
           alert("请输入知识点名称");
           return;
         }
-        knowledgeService.addKnowledge(param).then(res=>{
+        OrgService.addOrg(param).then(res=>{
           console.info("添加成功");
           this.search();
-          this.courseId1=''
           this.knowledgeName1=''
         })
       },
@@ -350,17 +247,15 @@
         if(this.updateId.length>0){
           param['id']=this.updateId;
         }
-        knowledgeService.updateKnowledge(param).then(res=>{
+        OrgService.updateOrg(param).then(res=>{
           console.info("修改成功");
           this.knowledgeName1='';
-          this.courseId1=''
           this.search()
         })
       },
       dialogCls:function () {
         this.errorText='';
         this.knowledgeName1='';
-        this.courseId1='';
         this.isError=false;
         this.errorText='';
       }

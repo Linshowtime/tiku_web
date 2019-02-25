@@ -44,7 +44,7 @@
 <script>
   import { manageTypes} from '@/common/js/knowledgeManage'
   import Head from '@/components/head'
-
+  import commonService from '@/common/service/commonService'
   export default {
     name: "Manage",
     data(){
@@ -67,7 +67,7 @@
             this.$router.push('/studentmanage')
             break;
           case '3':
-            this.$router.push('/teacher')
+            this.$router.push('/teachermanage')
             break;
           case '4':
             this.$router.push('/KnowledgeManage');
@@ -90,6 +90,9 @@
     },
 
     created:function () {
+      commonService.Connect().then(res=>{
+
+      });
 
     }
   }

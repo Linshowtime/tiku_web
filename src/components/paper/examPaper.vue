@@ -348,6 +348,11 @@
         this.search();
       }
     },
+    mounted() {
+      commonService.Connect().then(res=>{
+
+      });
+    },
     components:{
       Pager,
       headcommon: Head,

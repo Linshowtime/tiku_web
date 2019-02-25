@@ -389,6 +389,10 @@
       },
 
       created:function () {
+
+        commonService.Connect().then(res=>{
+
+        });
          this.paper = this._global.storage.getSession('srcPaper');
 
         if(this.paper){

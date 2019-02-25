@@ -1,6 +1,6 @@
 <template>
   <el-row class="container">
-    <el-col :span="18" class="header" offset="3">
+    <el-col :span="18" class="header" :offset="3">
       <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
         {{collapsed?'':sysName}}
       </el-col>
@@ -49,22 +49,20 @@
         </el-col>
       </el-row>
     </el-col>
-    <!-- 右侧空白列-->
-    <el-col :span="3"><div class="grid-content"></div></el-col>
-
   </el-row>
+
 </template>
 
 <script>
-  import { manageTypes} from '@/common/js/student'
+  import { manageTypes} from '@/common/js/teacher'
   import commonService from '@/common/service/commonService'
   export default {
     data() {
       return {
-        sysName:'学生端',
+        sysName:'教师端',
         collapsed:false,
         sysUserName: '',
-        sysUserAvatar: '../../../static/imgs/avtar.jpeg',
+        sysUserAvatar: '../../../static/imgs/teacher.jpg',
         manageTypes:manageTypes
       }
     },
@@ -93,7 +91,8 @@
       commonService.Connect().then(res=>{
 
       });
-        this.sysUserName = this.$route.query.registerNo;
+      this.sysUserName = this.$route.query.registerNo;
+
 
     }
   }

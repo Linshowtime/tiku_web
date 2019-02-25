@@ -536,12 +536,9 @@
         },
 
         mounted(){
+            commonService.Connect().then(res=>{
 
-          const oScript = document.createElement('script');
-          oScript.type = 'text/javascript';
-          oScript.src = '@/common/js/growingIo.js';
-          document.body.appendChild(oScript);
-
+            });
           this.paperId=this.$route.query.paperId;
           if(!this.paperId){
 

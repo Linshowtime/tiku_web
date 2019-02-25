@@ -193,6 +193,7 @@ import productPaper from '@/common/js/productPaper'
 import paperItem from '@/components/paper/paperItem'
 import pager from '@/components/pager'
 import Pager from '../pager'
+import commonService from '@/common/service/commonService'
 import testPaperService from '@/common/service/testPaperService'
 
 export default {
@@ -335,6 +336,9 @@ export default {
     paperItem: paperItem
   },
   mounted () {
+    commonService.Connect().then(res=>{
+
+    });
     // /* const oScript = document.createElement('script');
     //    oScript.type = 'text/javascript';
     //    oScript.src = 'http://assets.growingio.com/2.1/gio.js';
@@ -364,6 +368,7 @@ export default {
     //     this._global.storage.setSession('srcPaper', paper, 0)
     //   })
     // }
+
   }
 }
 </script>
