@@ -24,7 +24,7 @@
     <el-col :span="18" offset="3">
       <el-row :gutter="10">
         <!--左侧栏-->
-        <el-col :span="6">
+        <el-col :span="5">
           <el-card :body-style="{ padding: '0px' }">
             <div v-for="o in manageTypes" :key="o" class="text leftItem"
                  v-bind:class="{leftItemClick:currentManageType==o}"
@@ -47,6 +47,9 @@
           <router-view></router-view>
 
         </el-col>
+        <!-- 右侧空白列-->
+        <el-col :span="3"><div class="grid-content"></div></el-col>
+
       </el-row>
     </el-col>
   </el-row>
@@ -63,10 +66,25 @@
         collapsed:false,
         sysUserName: '',
         sysUserAvatar: '../../../static/imgs/teacher.jpg',
-        manageTypes:manageTypes
+        manageTypes:manageTypes,
+        currentManageType:''
       }
     },
     methods: {
+      chooseType:function(o){
+        this.currentManageType=o;
+        switch(o.index){
+          case '1':
+            this.$router.push('/class');
+            break;
+          case '2':
+            this.$router.push('/paper')
+            break;
+          case '3':
+            this.$router.push('/analyze')
+            break;
+        }
+      },
       //退出登录
       logout: function () {
         var _this = this;
@@ -75,6 +93,7 @@
         }).then(() => {
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('role');
+          sessionStorage.removeItem('registerNo');
           _this.$router.push('/login');
         }).catch(() => {
         });
@@ -92,7 +111,11 @@
 
       });
       this.sysUserName = this.$route.query.registerNo;
+      this.sysUserName = this.$route.query.registerNo;
+      if(this.sysUserName==null||this.sysUserName==''){
+        this.sysUserName=sessionStorage.getItem('registerNo');
 
+      }
 
     }
   }
@@ -223,4 +246,5 @@
       }
     }
   }
+  @import "teacher.css";
 </style>

@@ -24,7 +24,7 @@
     <el-col :span="18" offset="3">
       <el-row :gutter="10">
         <!--左侧栏-->
-        <el-col :span="6">
+        <el-col :span="5">
           <el-card :body-style="{ padding: '0px' }">
             <div v-for="o in manageTypes" :key="o" class="text leftItem"
                  v-bind:class="{leftItemClick:currentManageType==o}"
@@ -65,10 +65,28 @@
         collapsed:false,
         sysUserName: '',
         sysUserAvatar: '../../../static/imgs/avtar.jpeg',
-        manageTypes:manageTypes
+        manageTypes:manageTypes,
+        currentManageType:''
       }
     },
     methods: {
+      chooseType:function(o){
+        this.currentManageType=o;
+        switch(o.index){
+          case '1':
+            this.$router.push('/exam');
+            break;
+          case '2':
+            this.$router.push('/exercise')
+            break;
+          case '3':
+            this.$router.push('/wrong')
+            break;
+          case '4':
+            this.$router.push('/notes');
+         break;
+        }
+      },
       //退出登录
       logout: function () {
         var _this = this;
@@ -77,6 +95,7 @@
         }).then(() => {
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('role');
+          sessionStorage.removeItem('registerNo');
           _this.$router.push('/login');
         }).catch(() => {
         });
@@ -94,7 +113,10 @@
 
       });
         this.sysUserName = this.$route.query.registerNo;
+        if(this.sysUserName==null||this.sysUserName==''){
+          this.sysUserName=sessionStorage.getItem('registerNo');
 
+        }
     }
   }
 </script>
@@ -224,4 +246,5 @@
       }
     }
   }
+  @import "student.css";
 </style>

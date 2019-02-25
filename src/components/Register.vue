@@ -172,7 +172,7 @@
         })
       },
       tologin () {
-        this.$router.push('/')
+        this.$router.push('/login')
       },
       getMsgNum() {
         var phoneNumber = this.RegisterForm.phone;

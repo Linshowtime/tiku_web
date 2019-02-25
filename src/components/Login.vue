@@ -111,9 +111,10 @@
             }
             // 调用axios登录接口
             CommonService.login(LoginParams).then(res=>{
-              sessionStorage.setItem('token', res.data.data.token);
-              sessionStorage.setItem('role',LoginParams.role)
               if(res.data.code==0){
+                sessionStorage.setItem('token', res.data.data.token);
+                sessionStorage.setItem('role',LoginParams.role);
+                sessionStorage.setItem('registerNo',LoginParams.registerNo)
                 if(LoginParams.role==2){
                   this.$router.push('/knowledgeSubject')
                 }
@@ -138,7 +139,7 @@
                    )
                 }
               }
-              else{
+             else{
                 alert(res.data.msg)
               }
             })

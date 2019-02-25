@@ -1,0 +1,15 @@
+.leftItem:hover{
+  background-color: #ECF5FF;
+}
+.leftItem{
+  #border:1px solid #EBEBEB;
+}
+.leftItemClick{
+  background-color: #ECF5FF;
+}
+
+.row{
+  border-top:1px solid #EBEBEB;
+  min-height: 55px;
+  line-height: 55px;
+}
