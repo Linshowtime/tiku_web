@@ -4,15 +4,15 @@
     试卷分析
     </div>
       <div class="subjectItemName" v-html="cssFormat(parentsubject.content) " style="text-align: left"></div>
-    <div v-if="parentsubject.commonSubjectTypeId == 1 || parentsubject.commonSubjectTypeId===2" style="text-align: left">
-      <el-row v-for="option in parentsubject.optionsContentList" v-html="option" class="subjectOption"></el-row>
+    <div v-if="parentsubject.subjectTypeId == 2" style="text-align: left">
+      <el-row v-for="option in parentsubject.optionsList" v-html="option" class="subjectOption"></el-row>
     </div>
     <el-row style="text-align: left" >
-      <span style="font-weight: bolder">知识点:</span>{{parentsubject.knowledgeNames}}
+      <span style="font-weight: bolder">知识点:</span>{{parentsubject.knowledgeName}}
     </el-row>
     <br>
     <el-row style="text-align: left">
-      <span style="font-weight: bolder">答案:</span> <span v-html="cssFormat(parentsubject.rightAnswer) "></span>
+      <span style="font-weight: bolder">答案:</span> <span v-html="cssFormat(parentsubject.answer) "></span>
     </el-row>
     <br>
     <el-row style="text-align: left">

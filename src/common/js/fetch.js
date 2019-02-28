@@ -32,6 +32,27 @@ export function fetch(options) {
       } else {
         next();
       }
+     if(to.meta.auth){
+       if(sessionStorage.getItem('auth')==1){
+         next();
+       }
+       else{
+         alert('请点击头像后，完成认证。如若不行，请联系学校相关负责人')
+         if(sessionStorage.getItem('role')==0){
+           next({
+             path:'/student'
+           })
+         }
+         else{
+           next({
+             path:'/teacher'
+           })
+         }
+       }
+     }
+     else{
+       next();
+     }
     });
     // 响应时拦截
     instance.interceptors.response.use(function (response) {

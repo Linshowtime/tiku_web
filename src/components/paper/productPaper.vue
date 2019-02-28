@@ -23,7 +23,7 @@
                     <el-option
                       v-for="item in grades"
                       :key="item.id"
-                      :label="item.name"
+                      :label="item.gradename"
                       :value="item.id">
                     </el-option>
                   </el-select>
@@ -31,12 +31,12 @@
               </el-row>
 
               <div v-for="o in paperTypes" :key="o" class="text leftItem"
-                   v-bind:class="{leftItemClick:currentPaperType==o}"
+                   v-bind:class="{leftItemClick:currentPaperType==o.id}"
                    v-on:click="chooseType(o)"
               >
                 <el-row class="row">
                   <el-col :span="12" style="text-align: left; ">
-                    <el-button type="text" style="margin-left: 10px;color: #505050">{{ o }}</el-button>
+                    <el-button type="text" style="margin-left: 10px;color: #505050">{{ o.name }}</el-button>
                   </el-col>
                   <el-col :span="12" style="text-align: right">
                     <el-button type="text" style="margin-right: 10px; color: #505050">></el-button>
@@ -104,33 +104,6 @@
 
               </el-row>
 
-              <el-row class="row">
-                <el-col :span="2">
-                  <el-button type="text" class="serachTextButton">年份</el-button>
-                </el-col>
-                <el-col :span="22" style="text-align: left">
-                  <el-button-group style="margin-top: 5px;margin-bottom: 5px;">
-
-                    <el-button v-bind:type="currentYear==2?'primary':'button'"
-                               v-on:click='currentYear = 2;lessYear=1;search()'>全部
-                    </el-button>
-                    <el-button
-                      v-for="year in years"
-                      v-on:click='currentYear = year;lessYear=1;search()'
-                      v-bind:type="currentYear==year?'primary':'button'"
-                    >
-                      {{year}}
-                    </el-button>
-                    <el-button
-                      v-for="year in lessYears"
-                      v-on:click='lessYear = year;currentYear=1;search()'
-                      v-bind:type="lessYear==year?'primary':'button'"
-                    >
-                      {{year}}以前
-                    </el-button>
-                  </el-button-group>
-                </el-col>
-              </el-row>
 
               <!--<el-row class="row">-->
               <!--<el-col :span="2">-->
@@ -204,24 +177,14 @@ export default {
         this.commonlyAreas = productPaper.controller.getCommonAreas(res.data.data)
       }
     })
-    // 获取班型
-    this.$ajax.get(this._global.requestUrl.getTestPaperClassTypeUrl).then(res => {
-      if (res.data.resultCode == '0000') {
-        this.classTypes = res.data.data
-      }
-    })
     // 获取顶级学科
-    this.$ajax.get(this._global.requestUrl.getTopSubjectUrl).then(res => {
-      if (res.data.resultCode == '0000') {
-        this.courses = res.data.data
-      }
-    })
+    commonService.getTopSubject().then(res => {
+      this.courses = res.data.data;
+    });
     // 获取年级信息
-    this.$ajax.get(this._global.requestUrl.getGradesUrl).then(res => {
-      if (res.data.resultCode == '0000') {
-        this.grades = res.data.data
-      }
-    })
+  commonService.getAllGrade().then(res=>{
+    this.grades = res.data.data;
+  });
 
     this.paper = this._global.storage.getSession('srcPaper')
     if (this.paper) {
@@ -235,22 +198,37 @@ export default {
   },
   data () {
     return {
-      commonlyAreas: [],
+      commonlyAreas: [{
+      id:1,
+        name:'广州'
+      },
+        {
+          id:2,
+          name:'佛山'
+        },
+        {
+          id:3,
+          name:'揭阳'
+        },
+        {
+          id:4,
+          name:'东莞'
+        },
+        {
+          id:5,
+          name:'中山'
+        },
+        {
+          id:6,
+          name:'珠海'
+        }
+        ],
       paperTypes: productPaper.model.paperTypes,
-      lects: productPaper.model.lects,
-      periods: productPaper.model.periods,
-      years: productPaper.model.years,
-      lessYear: '',
-      lessYears: productPaper.model.lessYears,
       papers: {},
-      classTypes: [],
-      currentPeriod: '',
       currentArea: '',
-      currentYear: '',
       currentPaperType: '',
       paperName: '',
       claType: '',
-      lect: '',
       pages: 0,
       currentPage: 1,
       pageSize: 20,
@@ -320,7 +298,7 @@ export default {
       })
     },
     chooseType: function (o) {
-      this.currentPaperType = o
+      this.currentPaperType = o.id
       this.search()
     },
     change: function () {

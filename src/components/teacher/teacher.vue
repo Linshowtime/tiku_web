@@ -13,7 +13,9 @@
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>修改密码</el-dropdown-item>
+            <el-dropdown-item v-if="this.auth==0"  @click.native="authUser" >点击认证</el-dropdown-item>
+            <el-dropdown-item v-else style="color:silver">已认证</el-dropdown-item>
+            <el-dropdown-item divided @click.native="changePassword">修改密码</el-dropdown-item>
             <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -52,6 +54,24 @@
 
       </el-row>
     </el-col>
+    <el-dialog
+      @close="dialogCls"
+      title=身份认证
+      :visible.sync="dialogVisible1"
+      width="30%" :close-on-click-modal="false"
+    >
+      <el-input v-model="teacherNo"  placeholder="请输入教师工号完成认证"style="margin-bottom: 15px" ></el-input>
+      <el-button  @click="confirmAuth(teacherNo)"  type="primary" >开始认证</el-button>
+    </el-dialog>
+    <el-dialog
+      @close="dialogCls"
+      title=密码修改
+      :visible.sync="dialogVisible2"
+      width="30%" :close-on-click-modal="false"
+    >
+      <el-input v-model="password"  placeholder="请输入新密码"style="margin-bottom: 15px" ></el-input>
+      <el-button  @click="confirmChange(password)"  type="primary" >确认修改</el-button>
+    </el-dialog>
   </el-row>
 
 </template>
@@ -67,7 +87,12 @@
         sysUserName: '',
         sysUserAvatar: '../../../static/imgs/teacher.jpg',
         manageTypes:manageTypes,
-        currentManageType:''
+        currentManageType:'',
+        auth:0,
+        dialogVisible1:false,
+        dialogVisible2:false,
+        teacherNo:'',
+        password:''
       }
     },
     methods: {
@@ -85,6 +110,61 @@
             break;
         }
       },
+      authUser:function(){
+        this.dialogVisible1=true;
+      },
+      changePassword:function(){
+        this.dialogVisible2=true;
+      },
+      confirmChange:function(password){
+        var param={};
+        if(password.length>0){
+          param['password']=password;
+        }else{
+          alert("请输入新密码");
+          return;
+        }
+        if(this.sysUserName.length>0){
+          param['registerNo']=this.sysUserName;
+        }else{
+          alert("请重新登录");
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('role');
+          sessionStorage.removeItem('registerNo');
+          sessionStorage.removeItem('auth');
+          this.$router.push('/login');
+          return;
+        }
+        commonService.updateUser(param).then(res=>{
+          this.dialogVisible2=false;
+          this.password=''
+        })
+      },
+      confirmAuth:function(teacherNo){
+        var param={};
+        if(teacherNo.length>0){
+          param['teacherNo']=teacherNo;
+        }else{
+          alert("请输入工号");
+          return;
+        }
+        if(this.sysUserName.length>0){
+          param['registerNo']=this.sysUserName;
+        }else{
+          alert("请重新登录");
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('role');
+          sessionStorage.removeItem('registerNo');
+          sessionStorage.removeItem('auth');
+          this.$router.push('/login');
+          return;
+        }
+        commonService.authTeacher(param).then(res=>{
+          this.auth=1;
+          sessionStorage.setItem('auth',1);
+          this.dialogVisible1=false;
+        });
+      },
       //退出登录
       logout: function () {
         var _this = this;
@@ -94,7 +174,8 @@
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('role');
           sessionStorage.removeItem('registerNo');
-          _this.$router.push('/login');
+          sessionStorage.removeItem('auth');
+          this.$router.push('/login');
         }).catch(() => {
         });
       },
@@ -115,6 +196,9 @@
       if(this.sysUserName==null||this.sysUserName==''){
         this.sysUserName=sessionStorage.getItem('registerNo');
 
+      }
+      if(sessionStorage.getItem('auth')!=null){
+        this.auth=sessionStorage.getItem('auth');
       }
 
     }

@@ -1,23 +1,24 @@
 <template>
   <div>
-    <div class="subjectList" v-bind:class="{active: parentSubjects.total==null || parentSubjects.total==0}">
-      <div class="totalNum">共{{parentSubjects.total==null?0:parentSubjects.total}}份相关试题</div>
+    <div class="subjectList" v-bind:class="{active: parentSubjects.record_total==null || parentSubjects.total==0}">
+
+      <div class="totalNum">共{{parentSubjects.record_total==null?0:parentSubjects.record_total}}份相关试题</div>
       <div v-for="subject in parentSubjects.list" class="subjectItem">
         <el-row class="subjectItemName">
           <div  v-html="cssFormat(subject.content) "></div>
         </el-row>
-        <div v-if="subject.commonSubjectTypeId == 1 || subject.commonSubjectTypeId===2">
-          <el-row v-for="option in subject.optionsContentList" v-html="option" class="subjectOption"></el-row>
+        <div v-if="subject.subjectTypeId == 2">
+          <el-row v-for="option in subject.optionList" v-html="option" class="subjectOption"></el-row>
         </div>
         <el-row class="subjectItemScore">
-          <el-col :span="18">知识点:<span style="color: #038dd6">{{subject.knowledgeNames}}</span></el-col>
+          <el-col :span="18">知识点:<span style="color: #038dd6">{{subject.knowledgeName}}</span></el-col>
           <el-col :span="3"><el-button type="text"  @click="see(subject)">查看解析</el-button></el-col>
-          <el-col :span="3">
-            <div v-if="selectSubjectIds.indexOf(subject) ===-1">
-              <el-button type="text" v-on:click="selectSubject(subject,'select')">选择此题</el-button>
-            </div>
-            <div v-else><el-button type="text" v-on:click="selectSubject(subject,'cancel')" style="color:red">取消此题</el-button></div>
-          </el-col>
+          <!--<el-col :span="3">-->
+            <!--<div v-if="selectSubjectIds.indexOf(subject) ===-1">-->
+              <!--<el-button type="text" v-on:click="selectSubject(subject,'select')">选择此题</el-button>-->
+            <!--</div>-->
+            <!--<div v-else><el-button type="text" v-on:click="selectSubject(subject,'cancel')" style="color:red">取消此题</el-button></div>-->
+          <!--</el-col>-->
         </el-row>
 
       </div>

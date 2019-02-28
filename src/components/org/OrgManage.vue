@@ -201,9 +201,9 @@
         this.tableData[index].state=1;
         var param={};
         param['id']=row.id;
-        param['state']=1;
+        param['status']=1;
         OrgService.updateOrg(param).then(res=>{
-
+         this.search()
 
         })
       },
@@ -211,9 +211,9 @@
         this.tableData[index].state=0;
         var param={};
         param['id']=row.id;
-        param['state']=0;
+        param['status']=0;
         OrgService.updateOrg(param).then(res=>{
-          console.info("修改成功");
+          this.search()
         })
       },
       update(index, row) {
@@ -244,7 +244,7 @@
         if(knowledgeName.length>0){
           param['name']=knowledgeName;
         }
-        if(this.updateId.length>0){
+        if(this.updateId!=''){
           param['id']=this.updateId;
         }
         OrgService.updateOrg(param).then(res=>{

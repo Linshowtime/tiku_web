@@ -4,7 +4,7 @@
       <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
         {{collapsed?'':sysName}}
       </el-col>
-      <el-col :span="10">
+      <el-col :span="9">
         <div class="tools" @click.prevent="collapse">
           <i class="fa fa-align-justify"></i>
         </div>
@@ -13,7 +13,9 @@
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>修改密码</el-dropdown-item>
+            <el-dropdown-item v-if="this.auth==0" @click.native="authUser">点击认证</el-dropdown-item>
+            <el-dropdown-item v-else style="color:silver">已认证</el-dropdown-item>
+            <el-dropdown-item divided @click.native="changePassword">修改密码</el-dropdown-item>
             <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -51,7 +53,24 @@
     </el-col>
     <!-- 右侧空白列-->
     <el-col :span="3"><div class="grid-content"></div></el-col>
-
+    <el-dialog
+      @close="dialogCls"
+      title=身份认证
+      :visible.sync="dialogVisible1"
+      width="30%" :close-on-click-modal="false"
+    >
+      <el-input v-model="studentNo"  placeholder="请输入学号完成认证"style="margin-bottom: 15px" ></el-input>
+      <el-button  @click="confirmAuth(studentNo)"  type="primary" >开始认证</el-button>
+    </el-dialog>
+    <el-dialog
+      @close="dialogCls"
+      title=密码修改
+      :visible.sync="dialogVisible2"
+      width="30%" :close-on-click-modal="false"
+    >
+      <el-input v-model="password"  placeholder="请输入新密码"style="margin-bottom: 15px" ></el-input>
+      <el-button  @click="confirmChange(password)"  type="primary" >确认修改</el-button>
+    </el-dialog>
   </el-row>
 </template>
 
@@ -66,7 +85,13 @@
         sysUserName: '',
         sysUserAvatar: '../../../static/imgs/avtar.jpeg',
         manageTypes:manageTypes,
-        currentManageType:''
+        currentManageType:'',
+        auth: 0,
+        dialogVisible1:false,
+        dialogVisible2:false,
+        studentNo:'',
+        password:''
+
       }
     },
     methods: {
@@ -87,6 +112,62 @@
          break;
         }
       },
+      authUser:function(){
+      this.dialogVisible1=true;
+      },
+      changePassword:function(){
+        this.dialogVisible2=true;
+        this.password=''
+      },
+      confirmChange:function(password){
+        var param={};
+        if(password.length>0){
+          param['password']=password;
+        }else{
+          alert("请输入新密码");
+          return;
+        }
+        if(this.sysUserName.length>0){
+          param['registerNo']=this.sysUserName;
+        }else{
+          alert("请重新登录");
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('role');
+          sessionStorage.removeItem('registerNo');
+          sessionStorage.removeItem('auth');
+          this.$router.push('/login');
+          return;
+        }
+        commonService.updateUser(param).then(res=>{
+          this.dialogVisible2=false;
+        })
+      },
+      confirmAuth:function(studentNo){
+        var param={};
+        if(studentNo.length>0){
+          param['studentNo']=studentNo;
+        }else{
+          alert("请输入学号");
+          return;
+        }
+        if(this.sysUserName.length>0){
+          param['registerNo']=this.sysUserName;
+        }else{
+          alert("请重新登录");
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('role');
+          sessionStorage.removeItem('registerNo');
+          sessionStorage.removeItem('auth');
+          this.$router.push('/login');
+          return;
+        }
+        commonService.authStudent(param).then(res=>{
+          this.auth=1;
+          sessionStorage.setItem('auth',1);
+          this.dialogVisible1=false;
+        });
+        this.dialogVisible1=false;
+      },
       //退出登录
       logout: function () {
         var _this = this;
@@ -96,6 +177,7 @@
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('role');
           sessionStorage.removeItem('registerNo');
+          sessionStorage.removeItem('auth');
           _this.$router.push('/login');
         }).catch(() => {
         });
@@ -115,7 +197,9 @@
         this.sysUserName = this.$route.query.registerNo;
         if(this.sysUserName==null||this.sysUserName==''){
           this.sysUserName=sessionStorage.getItem('registerNo');
-
+        }
+        if(sessionStorage.getItem('auth')!=null){
+          this.auth=sessionStorage.getItem('auth');
         }
     }
   }
@@ -246,5 +330,25 @@
       }
     }
   }
+  .el-dialog__header {
+    padding: 10px 10px 10px;
+    background: #f0f0f0;
+    text-align: left;
+  }
+  .el-dialog__title{
+    color: #66b1ff;
+  }
+  .el-dialog__headerbtn {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    padding: 0;
+    background: 0 0;
+    border: none;
+    outline: 0;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
   @import "student.css";
 </style>

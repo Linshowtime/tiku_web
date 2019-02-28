@@ -43,7 +43,7 @@
         <el-radio-group v-model="RegisterForm.role">
           <el-radio :label="0">学生</el-radio>
           <el-radio :label="1">教师</el-radio>
-          <el-radio :label="2">管理员</el-radio>
+          <!--<el-radio :label="2">管理员</el-radio>-->
         </el-radio-group>
       </el-form-item>
       <el-form-item >

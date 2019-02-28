@@ -7,26 +7,42 @@ export const requestUrl = {
   addOrgUrl: process.env.Human_Service_URL+'/org/api/add',
   updateOrgUrl: process.env.Human_Service_URL+ '/org/api/modify',
   queryOrgUrl: process.env.Human_Service_URL+ '/org/api/query/',
+  queryStudentUrl :process.env.Human_Service_URL+'/user/api/query/student/',
+  addStudentUrl: process.env.Human_Service_URL +'/user/api/addStudent',
+  authStudentUrl: process.env.Human_Service_URL +'/user/api/authStudent',
+  updateStudentUrl: process.env.Human_Service_URL +'/user/api/updateStudent',
+  queryTeacherUrl :process.env.Human_Service_URL+'/user/api/query/teacher/',
+  addTeacherUrl: process.env.Human_Service_URL +'/user/api/addTeacher',
+  updateTeacherUrl: process.env.Human_Service_URL +'/user/api/updateTeacher',
+  authTeacherUrl: process.env.Human_Service_URL +'/user/api/authTeacher',
+
   //获取所有区域
   allAreasUrl: process.env.BASE_URL + '/api/exam/area/findAllAreas',
   //根据年级获取学段
   getStageByGradeUrl: process.env.Paper_Service_URL + '/api/common/findSegmentByGradeId?gradeId=',
   //获取顶级学科
   getTopSubjectUrl: process.env.Human_Service_URL + "/course/api/getAllCourse",
-  //获取所有年级
-  getGradesUrl: process.env.BASE_URL + "/api/common/findAllGrades",
+  // //获取所有年级
+  // getGradesUrl: process.env.BASE_URL + "/api/common/findAllGrades",
   //获取所有学段
-  getStagesUrl: process.env.BASE_URL + "/api/common/findAllBaseSegments",
+  getStagesUrl: process.env.Human_Service_URL + "/segment/api/getAllSegment",
+  //获取所有年级
+  getGradesUrl: process.env.Human_Service_URL + "/grade/api/getAllGrade",
   //根据学段，学科获取学段学科id
   getStageSubjectIdUrl: process.env.Paper_Service_URL + "/api/common/findSegmentCourseIds",
 
   loginUrl: process.env.Human_Service_URL+"/user/api/login",
+  updateUserUrl: process.env.Human_Service_URL+"/user/api/modify",
   registerUrl:  process.env.Human_Service_URL+"/user/api/register" ,
   sendMsgUrl:    process.env.Human_Service_URL+"/message/api/sendMsg",
   validateNumUrl:    process.env.Human_Service_URL+"/message/api/validateNum",
 
   //分页查询题目
-  questionSearchUrl: process.env.Subject_Service_URL + '/subject/api/getSubjectsByPage/',
+  questionSearchUrl: process.env.Subject_Service_URL + 'query/',
+  addQuestionUrl: process.env.Subject_Service_URL+ 'add',
+  modifyQuestionUrl: process.env.Subject_Service_URL+ 'modify',
+  deleteQuestionUrl: process.env.Subject_Service_URL+ 'delete/',
+
   //获取题目类型
   getQuestionTypeUrl: process.env.Subject_Service_URL + '/subject/api/subjecttype/',
 

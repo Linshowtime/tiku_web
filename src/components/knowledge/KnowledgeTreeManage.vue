@@ -12,7 +12,7 @@
         <el-col span="3" style="margin-left: 10px;margin-right: 5px;">
           <el-select v-model="queryModel.subjectId" placeholder="学科"  @change="queryKnowledgeTree()">
             <el-option
-              v-for="item in subjects"
+              v-for="item in courses"
               :key="item.id"
               :label="item.name"
               :value="item.id">
@@ -131,7 +131,7 @@
         <el-col span="20" class="add">
           <el-select v-model="knowledgeTreeManageModel.subjectId" placeholder="学科">
             <el-option
-              v-for="item in subjects"
+              v-for="item in courses"
               :key="item.id"
               :label="item.name"
               :value="item.id">
@@ -143,9 +143,14 @@
       <el-row class="row">
         <el-col span="3" class="add">适用学段</el-col>
         <el-col span="20" class="add">
-          <el-checkbox-group v-model="knowledgeTreeManageModel.stageId">
-            <el-checkbox  v-for="stage in stages" :key="stage.id" :label="stage.id" >{{stage.name}}</el-checkbox>
-          </el-checkbox-group>
+          <el-select v-model="knowledgeTreeManageModel1.stageId" placeholder="适用学段"  >
+            <el-option
+              v-for="item in stages"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-col>
       </el-row>
       <el-row class="row">
@@ -213,7 +218,7 @@
         <el-col span="20" class="add">
           <el-select v-model="knowledgeTreeManageModel1.subjectId" placeholder="学科"  disabled>
             <el-option
-              v-for="item in subjects"
+              v-for="item in courses"
               :key="item.id"
               :label="item.name"
               :value="item.id">
@@ -225,9 +230,14 @@
       <el-row class="row">
         <el-col span="3" class="add">适用学段</el-col>
         <el-col span="20" class="add">
-          <el-checkbox-group v-model="knowledgeTreeManageModel1.stageId">
-            <el-checkbox  v-for="stage in stages" :key="stage.id" :label="stage.id" >{{stage.name}}</el-checkbox>
-          </el-checkbox-group>
+          <el-select v-model="knowledgeTreeManageModel1.stageId" placeholder="适用学段"  disabled>
+            <el-option
+              v-for="item in stages"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-col>
       </el-row>
       <el-row class="row">
@@ -313,7 +323,7 @@
         editType:'',            //当前操作知识点的类型：add:新增知识点目录树知识点，update:修改当前知识点目录树当前节点：delete:删除当前节点
         knowledgeTreeData:{"id":"","name":null,"children":[],"treeId":"","parentId":"","knowledgeId":""},
         knowledgeTrees:[],
-        subjects: [],   //所有学科
+        courses: [],   //所有学科
         orgs: [],       //所有机构
         addTreeFlag: false,     //增加知识点目录树
         setKnowledgeFlag: false,      //设置目录树知识点
@@ -345,13 +355,13 @@
     mounted() {
 
       commonService.getTopSubject().then(res => {
-        this.subjects = res;
+        this.courses = res.data.data;
       });
       commonService.getStages().then(res=>{
-        this.stages=res;
+        this.stages=res.data.data;;
       })
-      orgService.getAllOrg().then(res =>{
-          this.orgs = res.list;
+      commonService.getOrgs().then(res=>{
+        this.orgs=res.data.data;
       });
       this.queryKnowledgeTree();
     },
@@ -449,18 +459,19 @@
         this.currentTree = row;
         var param={}
         param['subjectId']=row.subjectId;
-        param['state']=0;
         knowledgeService.searchKnowledgeByPage(param,1,1000).then(res => {
-          for(var i = 0; i < res.list.length; i++) {
-            res.list[i]["value"] = res.list[i]['name'];   //'text'是需要的字段
-            delete res.list[i]['name'];  //key是要替换为'text'的字段
+          //alert(JSON.stringify(res.data.data.list))
+          for(var i = 0; i < res.data.data.list.length; i++) {
+            res.data.data.list[i]["value"] = res.data.data.list[i]['name'];   //'text'是需要的字段
+            delete res.data.data.list[i]['name'];  //key是要替换为'text'的字段
           }
-          this.knowledgements=res.list;
+          this.knowledgements=res.data.data.list;
         })
         //alert(JSON.stringify(row))
 
         knowledgeService.queryKnowledgeTreeKnowledge(row.treeId).then(res =>{
-          this.data4 = res.nodes;
+          // alert(JSON.stringify(res))
+              this.data4 = res.data.result.nodes;
         });
       },
 
@@ -525,9 +536,9 @@
         this.totalPages = 0;
         this.queryModel.treeName=this.queryModel.name
         knowledgeService.queryKnowledgeTree(this.queryModel,this.currentPage,5).then(res=>{
-          console.info(res);
-          this.knowledgeTrees = res.list;
-          this.totalPages = res.pages;
+          // alert(JSON.stringify(res))
+          this.knowledgeTrees = res.data.result.list;
+          this.totalPages = res.data.result.pages;
         });
       },
 

@@ -114,7 +114,8 @@
               if(res.data.code==0){
                 sessionStorage.setItem('token', res.data.data.token);
                 sessionStorage.setItem('role',LoginParams.role);
-                sessionStorage.setItem('registerNo',LoginParams.registerNo)
+                sessionStorage.setItem('registerNo',LoginParams.registerNo);
+                sessionStorage.setItem('auth',res.data.data.auth);
                 if(LoginParams.role==2){
                   this.$router.push('/knowledgeSubject')
                 }
@@ -123,7 +124,7 @@
                     {
                       path: '/student',
                       query: {
-                        registerNo: LoginParams.registerNo
+                        registerNo: LoginParams.registerNo,
                       }
                     }
                     )

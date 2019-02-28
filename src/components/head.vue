@@ -26,12 +26,12 @@
       <el-col :span="3"><div class="grid-content"></div></el-col>
     </el-row>
 
-    <el-row class="tab-header">
+    <el-row >
       <div v-if="manageIndex!=3">
-      <el-col :span="3"><div class="grid-content"></div></el-col>
-      <el-col :span="6" :class="{active:index == 1}" style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(1)">按产品选题</div></el-col>
-      <el-col :span="6" :class="{active:index == 2}" style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(2)">按知识点选题</div></el-col>
-      <el-col :span="6" :class="{active:index == 3}" style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(3)">按大型考试卷选题</div></el-col>
+      <el-col :span="3"><div class="grid-content" ></div></el-col>
+      <el-col :span="9" :class="{active:index == 1}" class="tab-header"style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(1)">按产品选题</div></el-col>
+      <el-col :span="9" :class="{active:index == 2}" class="tab-header"style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(2)">按知识点选题</div></el-col>
+      <!--<el-col :span="6" :class="{active:index == 3}" style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(3)">按大型考试卷选题</div></el-col>-->
       <el-col :span="3"><div class="grid-content"></div></el-col>
       </div>
     </el-row>
@@ -60,9 +60,9 @@
         if(num == 2){
           this.$router.push({name: 'knowledgeSubject'});
         }
-        if(num == 3){
-          this.$router.push({name: 'examPaper'});
-        }
+        // if(num == 3){
+        //   this.$router.push({name: 'examPaper'});
+        // }
         //const { href } = this.$router.resolve({
           //name: 'knowledgeSubject'
         //})

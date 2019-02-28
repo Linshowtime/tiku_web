@@ -12,7 +12,9 @@ import manage from '@/components/Manage'
 import KnowledgeManage from '@/components/knowledge/KnowledgeManage'
 import knowledgeTreeManage from '@/components/knowledge/KnowledgeTreeManage'
 import StudentManage from '@/components/user/StudentManage'
+import TeacherManage from '@/components/user/TeacherManage'
 import Org from '@/components/org/OrgManage'
+import SubjectManage from '@/components/subject/subjectManage'
 import Student from '@/components/student/student'
 import exam from '@/components/student/exam'
 import notes from '@/components/student/notes'
@@ -109,7 +111,8 @@ export default new Router({
           name: 'exam',
           meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            role :0
+            role :0,
+            auth:true
           },
           component: exam
         },
@@ -118,7 +121,8 @@ export default new Router({
           name: 'exercise',
           meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            role :0
+            role :0,
+            auth:true
           },
           component: exercise
         },
@@ -127,7 +131,8 @@ export default new Router({
           name: 'wrong',
           meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            role :0
+            role :0,
+            auth:true
           },
           component: wrong
         },
@@ -136,7 +141,8 @@ export default new Router({
           name: 'notes',
           meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            role :0
+            role :0,
+            auth:true
           },
           component: notes
         }
@@ -156,7 +162,8 @@ export default new Router({
           name:'analyze',
           meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            role :1
+            role :1,
+            auth:true
           },
           component:analyze,
         },
@@ -165,7 +172,8 @@ export default new Router({
           name:'paper',
           meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            role :1
+            role :1,
+            auth:true
           },
           component:paper,
         },
@@ -174,7 +182,8 @@ export default new Router({
           name:'class',
           meta: {
             requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            role :1
+            role :1,
+            auth:true
           },
           component:Class,
         }
@@ -218,6 +227,15 @@ export default new Router({
           component: StudentManage
         },
         {
+          path: '/teachermanage',
+          name: 'teachermanage',
+          meta: {
+            requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+            role :2
+          },
+          component: TeacherManage
+        },
+        {
           path: '/org',
           name: 'org',
           meta: {
@@ -225,6 +243,15 @@ export default new Router({
             role :2
           },
           component: Org
+        },
+        {
+          path: '/subjectManage',
+          name: 'subjectManage',
+          meta: {
+            requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+            role :2
+          },
+          component: SubjectManage
         }
       ]
     },

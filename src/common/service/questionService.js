@@ -28,8 +28,31 @@ export function getQuestionType(stageSubjectId) {
     params: null
   })
 }
-
+export function deleteQuestion(id) {
+  return fetch({
+    url: _global.requestUrl.deleteQuestionUrl+ id,
+    method: 'get',
+    params: null
+  })
+}
+export function addQuestion(param) {
+  return fetch({
+    url: _global.requestUrl.addQuestionUrl,
+    method: 'post',
+    data: param
+  })
+}
+export function modifyQuestion(param) {
+  return fetch({
+    url: _global.requestUrl.modifyQuestionUrl,
+    method: 'post',
+    data: param
+  })
+}
 export default {
   searchQuestionByPage,
-  getQuestionType
+  getQuestionType,
+  deleteQuestion,
+  addQuestion,
+  modifyQuestion
 }

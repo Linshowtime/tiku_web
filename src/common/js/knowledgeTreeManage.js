@@ -1,7 +1,7 @@
 export const knowledgeTree={
   treeName:'',
   subjectId:'',
-  stageId:[],
+  stageId:'',
   orgId:""
 }
 

@@ -24,7 +24,7 @@
     },
     methods: {
       handleNodeClick(data) {
-        this.$emit('knowledgeName',data.name)
+        this.$emit('knowledgeId',data.knowledgeId)
       }
     },
     watch: {
@@ -40,12 +40,13 @@
         param['subjectId']=newValue
         param['stageId']=this.studySection;
         knowledgeService.searchTreeIdByCondition(param).then(res=>{
-          knowledgeService.queryKnowledgeTreeById(res[0]).then(res=>{
-
-            if(res.treeInfo.status==0) {
-              this.data = res.nodes
+          knowledgeService.queryKnowledgeTreeById(res.data.result[0]).then(res=>{
+            // alert(JSON.stringify(res))
+            if(res.data.result.treeInfo!=null) {
+              this.data = res.data.result.nodes
             }
             else{
+              alert("该学科学段不存在知识点树")
               this.data=[]
             }
 
@@ -58,11 +59,13 @@
         param['subjectId']=this.subject
         param['stageId']=newValue
         knowledgeService.searchTreeIdByCondition(param).then(res=>{
-          knowledgeService.queryKnowledgeTreeById(res[0]).then(res=>{
-            if(res.treeInfo.status==0) {
-              this.data = res.nodes
+          knowledgeService.queryKnowledgeTreeById(res.data.result[0]).then(res=>{
+            //alert(JSON.stringify(res))
+            if(res.data.result.treeInfo!=null) {
+              this.data = res.data.result.nodes
             }
             else{
+              alert("该学科学段不存在知识点树")
               this.data=[]
             }
           })

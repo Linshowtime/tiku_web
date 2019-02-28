@@ -3,11 +3,11 @@
     <el-card  :body-style="{ padding: '0px' }">
       <el-row style="margin: 5px 10px" class="row">
         <div style="float: left">
-          <el-button style="border: 2px solid #4cafe3; background: #008CD7; border-radius: 5px;color: #EAF6FD;" type="text"   v-on:click="addStudent()">
-            <i class="el-icon-plus"  ></i>增加学生
+          <el-button style="border: 2px solid #4cafe3; background: #008CD7; border-radius: 5px;color: #EAF6FD;" type="text"   v-on:click="addTeacher()">
+            <i class="el-icon-plus"  ></i>增加教师
           </el-button>
           <el-button   style="border: 2px solid #4cafe3; background: #008CD7; border-radius: 5px;color: #EAF6FD;" type="text" v-on:click="batchAddKnowledge()">
-            <i class="el-icon-upload"></i> 批量增加学生
+            <i class="el-icon-upload"></i> 批量增加教师
           </el-button>
         </div>
       </el-row>
@@ -17,6 +17,16 @@
           <el-select placeholder="学校" style="margin: 0px 3px;" v-model="orgId"  @change="change()">
             <el-option
               v-for="item in orgs"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="3">
+          <el-select placeholder="学科" style="margin: 0px 3px;" v-model="courseId"  @change="change()">
+            <el-option
+              v-for="item in courses"
               :key="item.id"
               :label="item.name"
               :value="item.id">
@@ -50,16 +60,16 @@
             width="80" align="center">
           </el-table-column>
           <el-table-column
-            label="学号"
-            min-width="100" align="center">
+            label="工号"
+            min-width="80" align="center">
             <template slot-scope="scope">
-              <span v-if="scope.row.state==1" style="color:darkgray">{{scope.row.studentNo}}</span>
-              <span v-if="scope.row.state==0">{{scope.row.studentNo}}</span>
+              <span v-if="scope.row.state==1" style="color:darkgray">{{scope.row.teacherNo}}</span>
+              <span v-if="scope.row.state==0">{{scope.row.teacherNo}}</span>
             </template>
           </el-table-column>
           <el-table-column
             label="姓名"
-            min-width="100" align="center">
+            min-width="80" align="center">
             <template slot-scope="scope">
               <span v-if="scope.row.state==1" style="color:darkgray">{{scope.row.name}}</span>
               <span v-if="scope.row.state==0">{{scope.row.name}}</span>
@@ -67,10 +77,18 @@
           </el-table-column>
           <el-table-column
             label="学校名称"
-            min-width="100" align="center">
+            min-width="80" align="center">
             <template slot-scope="scope">
               <span v-if="scope.row.state==1" style="color:darkgray">{{scope.row.orgName}}</span>
               <span v-if="scope.row.state==0">{{scope.row.orgName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="学科"
+            min-width="80" align="center">
+            <template slot-scope="scope">
+              <span v-if="scope.row.state==1" style="color:darkgray">{{scope.row.courseName}}</span>
+              <span v-if="scope.row.state==0">{{scope.row.courseName}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -148,10 +166,18 @@
           :value="item.id">
         </el-option>
       </el-select></div>
-      <el-input v-model="knowledgeName1"  placeholder="在这里输入学生姓名"style="margin-bottom: 15px" ></el-input>
-      <el-input v-model="studentNo"  placeholder="在这里输入学生学号"style="margin-bottom: 15px" ></el-input>
+      <div style="height: 100%;text-align: left;margin-bottom: 15px"><el-select placeholder="学科" v-model="courseId1" >
+        <el-option
+          v-for="item in courses"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select></div>
+      <el-input v-model="knowledgeName1"  placeholder="在这里输入教师姓名"style="margin-bottom: 15px" ></el-input>
+      <el-input v-model="teacherNo"  placeholder="在这里输入教师工号"style="margin-bottom: 15px" ></el-input>
       <el-button v-if="isError" type="primary" disabled>保存并上传</el-button>
-      <el-button v-else @click="save(orgId1,knowledgeName1)"  type="primary" >保存并上传</el-button>
+      <el-button v-else @click="save(courseId1,orgId1,knowledgeName1)"  type="primary" >保存并上传</el-button>
     </el-dialog>
     <!--修改知识点弹窗-->
     <el-dialog
@@ -196,7 +222,9 @@
         file:'',
         errorText:'',
         batcherror:false,
-        studentNo:''
+        teacherNo:'',
+        courseId:'',
+        courseId1:''
       }
     },
     methods:{
@@ -212,16 +240,16 @@
         if (this.orgId!='') {
           param['orgId'] = this.orgId;
         }
+        if (this.courseId!='') {
+          param['courseId'] = this.courseId;
+        }
         if(this.name.length>0){
           param['name']=this.name;
         }
         return param;
       },
-      change:function () {
-        this.search();
-      },
       search:function () {
-        commonService.searchStudentByPage(this.getParam(),this.currentPage, 5).then(res => {
+        commonService.searchTeacherByPage(this.getParam(),this.currentPage, 5).then(res => {
           if (res == null) {
             this.tableData=[];
             this.pages = 0;
@@ -231,7 +259,7 @@
           }
         })
       },
-      addStudent:function(){
+      addTeacher:function(){
         this.dialogVisible=true;
       },
       batchAddKnowledge:function(){
@@ -240,9 +268,9 @@
       stop(index, row) {
         this.tableData[index].state=1;
         var param={};
-        param['studentNo']=row.studentNo;
+        param['teacherNo']=row.teacherNo;
         param['state']=1;
-        commonService.updateStudent(param).then(res=>{
+        commonService.updateTeacher(param).then(res=>{
 
 
         })
@@ -250,14 +278,14 @@
       reuse(index, row){
         this.tableData[index].state=0;
         var param={};
-        param['studentNo']=row.studentNo;
+        param['teacherNo']=row.teacherNo;
         param['state']=0;
-        commonService.updateStudent(param).then(res=>{
+        commonService.updateTeacher(param).then(res=>{
           console.info("修改成功");
         })
       },
       update(index, row) {
-        this.updateId=row.studentNo;
+        this.updateId=row.teacherNo;
 
         this.knowledgeName1=row.name;
         this.orgId1=row.orgId;
@@ -267,32 +295,40 @@
         this.currentPage = index;
         this.search();
       },
-      save(orgId,knowledgeName){
+      save(courseId,orgId,knowledgeName){
         var param={};
+        if (courseId!='') {
+          param['courseId'] = courseId;
+        }else{
+          alert("请选择学科");
+          return;
+        }
         if (orgId!='') {
           param['orgId'] = orgId;
         }else{
           alert("请选择学校");
           return;
         }
-        if (this.studentNo.length>0) {
-          param['studentNo'] = this.studentNo;
+        if (this.teacherNo.length>0) {
+          param['teacherNo'] = this.teacherNo;
         }else{
-          alert("请输入学号");
+          alert("请输入工号");
           return;
         }
         if(knowledgeName.length>0){
           param['name']=knowledgeName;
         }else{
-          alert("请输入学生名字");
+          alert("请输入教师名字");
           return;
         }
-        commonService.addStudent(param).then(res=>{
+        commonService.addTeacher(param).then(res=>{
           console.info("添加成功");
           this.search();
           this.orgId1=''
           this.knowledgeName1=''
-          this.studentNo=''
+          this.teacherNo=''
+          this.courseId1=''
+
         })
       },
       modify(knowledgeName){
@@ -301,13 +337,12 @@
           param['name']=knowledgeName;
         }
         if(this.updateId!=''){
-          param['studentNo']=this.updateId;
+          param['teacherNo']=this.updateId;
         }
-        commonService.updateStudent(param).then(res=>{
+        commonService.updateTeacher(param).then(res=>{
           console.info("修改成功");
           this.knowledgeName1='';
           this.orgId1='';
-
           this.search()
         })
       },
@@ -374,7 +409,10 @@
         this.errorText='';
         var obj=  document.getElementById("file");
         obj.outerHTML=obj.outerHTML;
-      }
+      },
+      change:function () {
+        this.search();
+      },
     },
     components:{
       pager:Pager
@@ -382,6 +420,9 @@
     created:function () {
       commonService.getOrgs().then(res=>{
         this.orgs=res.data.data;
+      });
+      commonService.getTopSubject().then(res=>{
+        this.courses=res.data.data;
       });
       this.search()
     }

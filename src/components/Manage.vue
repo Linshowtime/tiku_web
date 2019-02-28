@@ -77,7 +77,7 @@
 
             break;
           case '6':
-            this.$router.push('/')
+            this.$router.push('/subjectManage')
 
             break;
         }
