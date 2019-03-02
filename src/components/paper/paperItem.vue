@@ -1,13 +1,13 @@
 <template>
-  <div class="paperList" v-bind:class="{active: parentPapers.total==null || parentPapers.total==0}">
-    <div class="totalNum">共{{parentPapers.total==null?0:parentPapers.total}}份相关试卷</div>
+  <div class="paperList" v-bind:class="{active: parentPapers.record_total==null || parentPapers.record_total==0}">
+    <div class="totalNum">共{{parentPapers.record_total==null?0:parentPapers.record_total}}份相关试卷</div>
     <div v-for="paper in parentPapers.list" class="paperItem">
-      <el-button type="text" v-on:click="goto(paper.id)"><div class="paperItemName" v-html="cssFormat(paper.name) "></div></el-button>
+      <el-button type="text" v-on:click="goto(paper.id)">{{paper.name}}</el-button>
       <div class="paperItemScore">
         <el-row>
           <el-col :span="9">
             <div style="margin-left: 10px;">
-              试卷类型:<span v-if="paper.typename!=null">{{paper.typename}}</span>
+              试卷类型:<span v-if="paper.typeName!=null">{{paper.typeName}}</span>
               <span v-else>无类型</span>
             </div>
 
@@ -16,8 +16,7 @@
             <!--<div style="border: 1px solid #1292D3; margin: 3px; border-radius:5px; background-color: #F3F7F8">
               <el-button type="text" style="height: max-content"><i class="el-icon-document"></i>试卷分析</el-button>
             </div>-->
-            <div style="margin-right: 10px;">创建时间:<span v-html="changetime(paper.createdate)"></span></div>
-
+             <div style="margin-right: 10px;">创建时间:{{paper.createDate}}</div>
           </el-col>
         </el-row>
       </div>
@@ -33,17 +32,6 @@
       name: "paper-item",
         props:['parentPapers'],
         methods:{
-          cssFormat:function (htmlStr) {
-            if(!htmlStr){
-              return ''
-            }
-
-            return htmlStr.replace('align="center"','');
-          },
-          changetime:function(time){
-
-           return time.substring(0,19).replace('T',' ');
-          },
           goto:function (paperId) {
             this.$router.push({
               path: '/paperSelect',

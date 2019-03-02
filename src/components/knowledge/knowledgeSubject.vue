@@ -141,13 +141,14 @@
   import Pager from '@/components/pager'
   import questionService from '@/common/service/questionService'
   import commonService from '@/common/service/commonService'
-
+  import testPaperService from '@/common/service/testPaperService'
     export default {
       name: "knowledge-subject",
       data(){
         return{
           studySection:'',
           orgs:[],
+          paperId:'',
           questionTypes:[
             {
               id:1,
@@ -176,6 +177,7 @@
           currentPage:1,  //当前页
           pages:0,
           paper:{},
+          editPaper:{},
           selectSubjectIds:[]
         }
       },
@@ -220,32 +222,31 @@
       },
 
       created:function () {
-
         commonService.Connect().then(res=>{
 
         });
-         this.paper = this._global.storage.getSession('srcPaper');
-
-        if(this.paper){
-          this.subject=this.paper.list[0].courseid;
-          if(this.paper.list[0].orgId) {
-            this.orgId = this.paper.list[0].orgId;
+        this.paperId = this.$route.query.paperId;
+        if(this.paperId!=null){
+          var param={}
+          param["id"]=this.paperId;
+          this._global.storage.setSession('srcPaperSubjectSum',0)
+          testPaperService.searchTestPaperByPage(param,1,5).then(res=>{
+            this.editPaper = res.data.data;
+            this._global.storage.setSession('srcPaper',this.editPaper)
+          })
+        }
+        else {
+          if(this._global.storage.getSession('srcPaper')!=null) {
+            this.editPaper = this._global.storage.getSession('srcPaper');
           }
-          let paperSubjectNewUrl = this._global.requestUrl.getTestPaperQuestionsUrl + this.paper.list[0].id;
-          //获取正在组卷试卷题目
-          this.$ajax.get(paperSubjectNewUrl).then(res => {
-            if (res.data.resultCode == '0000') {
-              this.selectSubjectIds = res.data.data.subjects;
-            }
-          });
-          commonService.getStageByGrade(this.paper.list[0].gradeid).then(res =>{
-            this.studySection= res.segmentId;
-            commonService.getStageSubjectIdByStageAndSubject(res.segmentId,this.paper.list[0].courseid).then(res => {
-              this.segmentCourseId = res;
-              questionService.getQuestionType(this.segmentCourseId).then(res =>{
-                this.questionTypes = res;
-              })
-            })
+          else{
+            alert("请先选择试卷，再进行组卷!");
+            this.$router.push('paperManage');
+          }
+        }
+        if(this.editPaper){
+          testPaperService.getTestPaperQuestions(this.editPaper.list[0].id).then(res=>{
+            this.selectSubjectIds=res.data.data;
           })
 
         }

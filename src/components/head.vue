@@ -5,13 +5,13 @@
       <el-col :span="3"><div class="grid-content"></div></el-col>
       <el-col :span="7">
         <div>
-          <img src="static/imgs/logo.jpg">
+          <img src="static/imgs/logo.png">
         </div>
       </el-col>
       <el-col :span="6" :gutter="1">
-       <el-button type="text"  :class="{topActive:ManageIndex == 1}" style="color: black;margin-left:10%;font-size: 15px;"v-on:click="Select(1)">在线组卷</el-button>
-        <el-button type="text"  :class="{topActive:ManageIndex == 2}" style="color: black;margin-left: 10%;font-size: 15px;" v-on:click="Select(2)">试卷管理</el-button>
         <el-button type="text" :class="{topActive:ManageIndex == 3}"  style="color: black;margin-left:10%;font-size: 15px;" v-on:click="Select(3)">题库管理</el-button>
+        <el-button type="text"  :class="{topActive:ManageIndex == 2}" style="color: black;margin-left: 10%;font-size: 15px;" v-on:click="Select(2)">试卷管理</el-button>
+        <el-button type="text"  :class="{topActive:ManageIndex == 1}" style="color: black;margin-left:10%;font-size: 15px;"v-on:click="Select(1)">在线组卷</el-button>
       </el-col>
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
@@ -27,7 +27,7 @@
     </el-row>
 
     <el-row >
-      <div v-if="manageIndex!=3">
+      <div v-if="manageIndex!=3&&manageIndex!=2">
       <el-col :span="3"><div class="grid-content" ></div></el-col>
       <el-col :span="9" :class="{active:index == 1}" class="tab-header"style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(1)">按产品选题</div></el-col>
       <el-col :span="9" :class="{active:index == 2}" class="tab-header"style="min-height: 52px;"><div class="grid-content" v-on:click="tabSelect(2)">按知识点选题</div></el-col>
@@ -74,7 +74,7 @@
         }
 
         if(num == 2){
-          this.$router.push({name: 'home'});
+          this.$router.push({name: 'paperManage'});
         }
         if(num == 3){
           this.$router.push({name: 'manage'});

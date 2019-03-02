@@ -9,7 +9,7 @@
             <el-card :body-style="{ padding: '0px' }">
               <el-row style="background: #F3F7F9" class="row">
                 <el-col :span="12">
-                  <el-select placeholder="学科" style="margin: 0px 3px;" v-model="courseId" @change="change()">
+                  <el-select placeholder="学科" style="margin: 0px 3px;" v-model="queryModel.courseId" @change="change()">
                     <el-option
                       v-for="item in courses"
                       :key="item.id"
@@ -19,7 +19,7 @@
                   </el-select>
                 </el-col>
                 <el-col :span="12">
-                  <el-select placeholder="年级" style="margin: 0px 3px;" v-model="gradeId" @change="change()">
+                  <el-select placeholder="年级" style="margin: 0px 3px;" v-model="queryModel.gradeId" @change="change()">
                     <el-option
                       v-for="item in grades"
                       :key="item.id"
@@ -57,7 +57,7 @@
                 </el-col>
                 <el-col :span="10">
                   <div class="demo-input-size">
-                    <el-input placeholder="请输入试卷标题或关键字" v-model="paperName">
+                    <el-input placeholder="请输入试卷标题或关键字" v-model="queryModel.name">
                     </el-input>
                   </div>
                 </el-col>
@@ -72,13 +72,13 @@
                 </el-col>
                 <el-col :span="22" style="text-align: left">
                   <el-button-group style="margin-top: 5px;margin-bottom: 5px;">
-                    <el-button v-bind:type="currentArea==''?'primary':'button'" v-on:click='currentArea = "";search()'>
+                    <el-button v-bind:type="queryModel.areaId==''?'primary':'button'" v-on:click='queryModel.areaId = "";search()'>
                       全部
                     </el-button>
                     <el-button
                       v-for="area in commonlyAreas"
-                      v-on:click='currentArea = area.id;search()'
-                      v-bind:type="currentArea==area.id?'primary':'button'"
+                      v-on:click='queryModel.areaId = area.id;search()'
+                      v-bind:type="queryModel.areaId==area.id?'primary':'button'"
                     >
                       {{area.name}}
                     </el-button>
@@ -94,8 +94,8 @@
                   <el-button-group style="margin-top:5px;margin-bottom: 5px;">
                     <el-button
                       v-for="lt in periods"
-                      v-on:click='currentPeriod = lt.id;search()'
-                      v-bind:type="currentPeriod==lt.id?'primary':'button'"
+                      v-on:click='queryModel.periodId = lt.id;search()'
+                      v-bind:type="queryModel.periodId==lt.id?'primary':'button'"
                     >
                       {{lt.name}}
                     </el-button>
@@ -164,19 +164,12 @@
 <script>
 import productPaper from '@/common/js/productPaper'
 import paperItem from '@/components/paper/paperItem'
-import pager from '@/components/pager'
-import Pager from '../pager'
+import Pager from '@/components/pager'
 import commonService from '@/common/service/commonService'
 import testPaperService from '@/common/service/testPaperService'
 
 export default {
   created: function () {
-    // 获取区域
-    this.$ajax.get(this._global.requestUrl.allAreasUrl).then(res => {
-      if (res.data.resultCode == '0000') {
-        this.commonlyAreas = productPaper.controller.getCommonAreas(res.data.data)
-      }
-    })
     // 获取顶级学科
     commonService.getTopSubject().then(res => {
       this.courses = res.data.data;
@@ -185,19 +178,19 @@ export default {
   commonService.getAllGrade().then(res=>{
     this.grades = res.data.data;
   });
-
-    this.paper = this._global.storage.getSession('srcPaper')
-    if (this.paper) {
-      this.courseId = this.paper.list[0].courseid
-      this.gradeId = this.paper.list[0].gradeid
-      if (this.paper.list[0].orgId) {
-        this.orgId = this.paper.list[0].orgId
-      }
-    }
     this.search()
   },
   data () {
     return {
+      queryModel:{
+        id:'',
+        name:'',
+        gradeId:'',
+        paperTypeId:'',
+        areaId:'',
+        periodId:'',
+        courseId:''
+      },
       commonlyAreas: [{
       id:1,
         name:'广州'
@@ -238,67 +231,23 @@ export default {
       grades: [],
       paper: {},
       paperId: '', // 新建的试卷id,
-      orgId: ''// 机构Id
+      orgId: '',// 机构Id
+      periods:productPaper.model.periods
     }
   },
   methods: {
     search: function () {
-      var baseUrl = this._global.requestUrl.testPaperSearchUrl + this.currentPage + '/' + this.pageSize
-      var param = {}
-      if (this.paperName.length > 0) {
-        param['name'] = this.paperName
-      }
-      if (this.currentPeriod.length > 0) {
-        param['season'] = this.currentPeriod
-      }
-      if (this.currentPaperType.length > 0) {
-        param['typename'] = this.currentPaperType
-      }
-      if (this.currentYear.length > 0 && this.currentYear != 1) {
-        param['yearid'] = this.currentYear
-      }
-      if (this.lessYear.length > 0 && this.lessYear != 1) {
-        param['lessYear'] = this.lessYear
-      }
-      if (this.currentArea.length > 0) {
-        param['areaid'] = this.currentArea
-      }
-      if (this.claType.length > 0) {
-        param['classType'] = this.claType
-      }
-
-      if (this.lect.length > 0) {
-        param['lectureno'] = this.lect
-      }
-      if (this.gradeId.length > 0) {
-        param['gradeid'] = this.gradeId
-      }
-      if (this.courseId.length > 0) {
-        param['courseid'] = this.courseId
-      }
-      if (this.orgId.length > 0) {
-        param['orgId'] = this.orgId
-      }
-      this.$ajax.post(
-        baseUrl,
-        param
-      ).then(res => {
-        if (res.data.resultCode === '0000') {
-          if (res.data.data == null) {
-            this.papers = {}
-            this.pages = 0
-          } else {
-            this.papers = res.data.data
-            this.pages = res.data.data.pages
-          }
-        } else {
-          this.papers = {}
-          this.pages = 0
+      testPaperService.searchTestPaperByPage(this.queryModel,this.currentPage,5).then(res=>{
+        if(res.data.data.list==null){
+          this.papers=[],
+            this.pages=0
         }
+        this.papers =res.data.data;
+        this.pages=res.data.data.page_total;
       })
     },
     chooseType: function (o) {
-      this.currentPaperType = o.id
+      this.queryModel.paperTypeId = o.id
       this.search()
     },
     change: function () {
@@ -310,7 +259,7 @@ export default {
     }
   },
   components: {
-    Pager,
+    pager:Pager,
     paperItem: paperItem
   },
   mounted () {

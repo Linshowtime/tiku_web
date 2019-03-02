@@ -117,7 +117,7 @@
                 sessionStorage.setItem('registerNo',LoginParams.registerNo);
                 sessionStorage.setItem('auth',res.data.data.auth);
                 if(LoginParams.role==2){
-                  this.$router.push('/knowledgeSubject')
+                  this.$router.push('/manage')
                 }
                 if(LoginParams.role==0){
                   this.$router.push(

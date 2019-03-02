@@ -15,11 +15,6 @@ export const requestUrl = {
   addTeacherUrl: process.env.Human_Service_URL +'/user/api/addTeacher',
   updateTeacherUrl: process.env.Human_Service_URL +'/user/api/updateTeacher',
   authTeacherUrl: process.env.Human_Service_URL +'/user/api/authTeacher',
-
-  //获取所有区域
-  allAreasUrl: process.env.BASE_URL + '/api/exam/area/findAllAreas',
-  //根据年级获取学段
-  getStageByGradeUrl: process.env.Paper_Service_URL + '/api/common/findSegmentByGradeId?gradeId=',
   //获取顶级学科
   getTopSubjectUrl: process.env.Human_Service_URL + "/course/api/getAllCourse",
   // //获取所有年级
@@ -28,8 +23,6 @@ export const requestUrl = {
   getStagesUrl: process.env.Human_Service_URL + "/segment/api/getAllSegment",
   //获取所有年级
   getGradesUrl: process.env.Human_Service_URL + "/grade/api/getAllGrade",
-  //根据学段，学科获取学段学科id
-  getStageSubjectIdUrl: process.env.Paper_Service_URL + "/api/common/findSegmentCourseIds",
 
   loginUrl: process.env.Human_Service_URL+"/user/api/login",
   updateUserUrl: process.env.Human_Service_URL+"/user/api/modify",
@@ -43,37 +36,34 @@ export const requestUrl = {
   modifyQuestionUrl: process.env.Subject_Service_URL+ 'modify',
   deleteQuestionUrl: process.env.Subject_Service_URL+ 'delete/',
 
-  //获取题目类型
-  getQuestionTypeUrl: process.env.Subject_Service_URL + '/subject/api/subjecttype/',
-
   //试卷班型（精英数学等）
   getTestPaperClassTypeUrl: process.env.BASE_URL + '/api/exam/paper/searchClassTypes',
+
   //分页查询试卷
-  testPaperSearchUrl: process.env.Paper_Service_URL + '/api/exam/paper/searchExamPaper/',
+  testPaperSearchUrl: process.env.Paper_Service_URL + 'query/',
+  modifyPaperUrl:process.env.Paper_Service_URL+'modify',
+  deletePaperUrl:process.env.Paper_Service_URL+'delete/',
+  addPaperUrl:process.env.Paper_Service_URL+'add',
   //获取试卷题目
-  getTestPaperQuestionsUrl: process.env.Paper_Service_URL + '/api/exam/paper/searchSubjects?paperId=',
+  getTestPaperQuestionsUrl: process.env.Paper_Service_URL + 'subject/',
+  //获取试卷题目
+  getTestPaperQuestionIdsUrl: process.env.Paper_Service_URL + 'subjectId/',
   //添加题目至试卷
-  addQuestionToTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/addSubjectToPaper',
+  addQuestionToTestPaperUrl: process.env.Paper_Service_URL + 'add/subject',
   //删除试卷题目
-  deleteQuestionFromTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/deletePaperSubject/',
+  deleteQuestionFromTestPaperUrl: process.env.Paper_Service_URL + 'delete/subject',
   //保存试卷
-  saveTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/saveTestPaper',
-  //批量添加题目至试卷
-  batchAddQuestionsToTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/batchAddSubjectToPaper',
-  //批量删除试卷题目
-  batchDeleteQuestionsFromTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/batchDeletePaperSubject',
+  saveTestPaperUrl: process.env.Paper_Service_URL + 'update/subject',
+
+
+  // //批量添加题目至试卷
+  // batchAddQuestionsToTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/batchAddSubjectToPaper',
+  // //批量删除试卷题目
+  // batchDeleteQuestionsFromTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/batchDeletePaperSubject',
 
 
   //根据学段学科获取知识点
   getKnowledgeByStageCourseUrl: process.env.Subject_Service_URL + '/subject/api/knowledge/',
-
-
-  //手工录题跳入老版本题库url
-  manualAddQuestionUrl: process.env.Exam_Web_URL + 'import/single-import-paper/',
-  //批量导入跳入老题库url
-  batchAddQuestionUrl: process.env.Exam_Web_URL + 'import/batch-import-paper/',
-  //进入组卷跳转URL
-  entryPaperEditUrl: process.env.Exam_Web_URL + 'import/teachNet-paperSubject-list?page=1&paperId=',
 
   //根据不同条件查询知识点
   knowledgeSearchUrl: process.env.Knowledge_Service_URL+'query/',
@@ -82,8 +72,6 @@ export const requestUrl = {
   //修改知识点
   updateKnowledgeUrl: process.env.Knowledge_Service_URL+'update',
   downloadExcelUrl: process.env.Knowledge_Service_URL+'knowledge/api/downloadExcel',
-  //组织机构服务url
-  //allOrgUrl:process.env.Exam_Web_URL+'org/api/org/query/',
 
   //新增知识目录树
   addKnowledgeTreeUrl: process.env.Exam_Web_URL+'knowledge/api/knowledge-tree/add-use-info',
@@ -95,7 +83,25 @@ export const requestUrl = {
   updateKnowledgeTreeAttributeUrl: process.env.Exam_Web_URL+'knowledge/api/knowledge-tree/update-use-info',
   searchTreeIdByConditionUrl:process.env.Exam_Web_URL +'knowledge/api/knowledge-tree/use-info/treeId/query',
   queryKnowledgeTreeByIdUrl: process.env.Exam_Web_URL+'knowledge/api/knowledge-tree/',
-  deleteNodeAndChildrensUrl: process.env.Exam_Web_URL+'knowledge/api/knowledge-tree/node/delete/'
+  deleteNodeAndChildrensUrl: process.env.Exam_Web_URL+'knowledge/api/knowledge-tree/node/delete/',
+
+
+
+  //手工录题跳入老版本题库url
+  manualAddQuestionUrl: process.env.Exam_Web_URL + 'import/single-import-paper/',
+  //批量导入跳入老题库url
+  batchAddQuestionUrl: process.env.Exam_Web_URL + 'import/batch-import-paper/',
+  //进入组卷跳转URL
+  entryPaperEditUrl: process.env.Exam_Web_URL + 'import/teachNet-paperSubject-list?page=1&paperId=',
+  //获取题目类型
+  getQuestionTypeUrl: process.env.Subject_Service_URL + '/subject/api/subjecttype/',
+  //根据学段，学科获取学段学科id
+  getStageSubjectIdUrl: process.env.Paper_Service_URL + "/api/common/findSegmentCourseIds",
+  //根据年级获取学段
+  getStageByGradeUrl: process.env.Paper_Service_URL + '/api/common/findSegmentByGradeId?gradeId=',
+  //获取所有区域
+  allAreasUrl: process.env.BASE_URL + '/api/exam/area/findAllAreas'
+
 }
 
 //封装增加删除题目题目数变化函数
@@ -103,9 +109,6 @@ export const paperUtil = {
   flushSrcPaperSubjectSum: function (subject, type) {
     var srcPaperSubjectSum = storage.getSession('srcPaperSubjectSum');
     var subLen = 1;
-    if (subject.childSubjectList != null && subject.childSubjectList.length > 0) {
-      subLen = subject.childSubjectList.length;
-    }
     if (type == 'add') {
       storage.setSession('srcPaperSubjectSum', (srcPaperSubjectSum + subLen), 0);
     }
@@ -260,19 +263,9 @@ export const courses = [
 ]
 
 export const subjectTypeName = {
-  '1': "单选题",
-  '2': "多选题",
-  '3': "客观填空题",
-  '4': "主观填空题",
-  '5': "客观判断题",
-  '6': "计算填空题",
-  '7': "综合题",
-  '8': "其他题",
-  '9': "简答题",
-  '10': "不定项选择题",
-  '11': "双选题",
-  '12': "子母题",
-  '999': "子母题"
+  '1': "填空题",
+  '2': "选择题",
+  '3': "判断题",
 }
 
 

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="subjectList" v-bind:class="{active: parentSubjects.record_total==null || parentSubjects.total==0}">
+    <div class="subjectList" v-bind:class="{active: parentSubjects.record_total==null || parentSubjects.record_total==0}">
 
-      <div class="totalNum">共{{parentSubjects.record_total==null?0:parentSubjects.record_total}}份相关试题</div>
+      <div class="totalNum">共{{parentSubjects.record_total==null?0:parentSubjects.record_total}}份相关题目</div>
       <div v-for="subject in parentSubjects.list" class="subjectItem">
         <el-row class="subjectItemName">
           <div  v-html="cssFormat(subject.content) "></div>
@@ -13,12 +13,12 @@
         <el-row class="subjectItemScore">
           <el-col :span="18">知识点:<span style="color: #038dd6">{{subject.knowledgeName}}</span></el-col>
           <el-col :span="3"><el-button type="text"  @click="see(subject)">查看解析</el-button></el-col>
-          <!--<el-col :span="3">-->
-            <!--<div v-if="selectSubjectIds.indexOf(subject) ===-1">-->
-              <!--<el-button type="text" v-on:click="selectSubject(subject,'select')">选择此题</el-button>-->
-            <!--</div>-->
-            <!--<div v-else><el-button type="text" v-on:click="selectSubject(subject,'cancel')" style="color:red">取消此题</el-button></div>-->
-          <!--</el-col>-->
+          <el-col :span="3">
+            <div v-if="selectSubjectIds.indexOf(subject) ===-1">
+              <el-button type="text" v-on:click="selectSubject(subject,'select')">选择此题</el-button>
+            </div>
+            <div v-else><el-button type="text" v-on:click="selectSubject(subject,'cancel')" style="color:red">取消此题</el-button></div>
+          </el-col>
         </el-row>
 
       </div>
@@ -73,7 +73,7 @@
             this.selectSubjectIds.push(subject);
             var param = {};
             if(this.paper) {
-              param['paperId']= this.paper.list[0].id;
+              param['examPaperId']= this.paper.list[0].id;
             }
             param["subjectId"]=subject.id;
             testPaperService.addSubjectToTestPaper(param).then(res =>{
@@ -83,9 +83,13 @@
           }
         }else{
           this.selectSubjectIds.splice(this.selectSubjectIds.indexOf(subject), 1);
-
+          var param = {};
           if(this.paper) {
-            testPaperService.deleteSubjectFromTestPaper( this.paper.list[0].id,subject.id).then(res =>{
+            param['examPaperId']= this.paper.list[0].id;
+          }
+          param["subjectId"]=subject.id;
+          if(this.paper) {
+            testPaperService.deleteSubjectFromTestPaper(param).then(res =>{
               alert("取消成功");
               this._global.paperUtil.flushSrcPaperSubjectSum(subject,'del');
               this.$refs.entryPaperEdit.flushSubject();

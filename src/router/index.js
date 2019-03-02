@@ -15,6 +15,7 @@ import StudentManage from '@/components/user/StudentManage'
 import TeacherManage from '@/components/user/TeacherManage'
 import Org from '@/components/org/OrgManage'
 import SubjectManage from '@/components/subject/subjectManage'
+import paperManage from '@/components/paper/paperManage'
 import Student from '@/components/student/student'
 import exam from '@/components/student/exam'
 import notes from '@/components/student/notes'
@@ -60,6 +61,15 @@ export default new Router({
         role :2
       },
       component: KnowledgeSubject
+    },
+    {
+      path: '/paperManage',
+      name: 'paperManage',
+      meta: {
+        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+        role :2
+      },
+      component: paperManage
     },
     {
       path:'/productPaper',

@@ -22,10 +22,6 @@ export const model = {
   lessYears: ['2016'],
   periods: [
     {
-      id: '',
-      name: '全部'
-    },
-    {
       id: '1',
       name: '春季'
     },

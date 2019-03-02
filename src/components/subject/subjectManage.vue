@@ -158,7 +158,7 @@
         knowledges:[],
         courses:[],
         orgs:[],
-        pages:1,
+        pages:0,
         currentPage:1,  //当前页
         subject:{},
         newDialogVisible:false,

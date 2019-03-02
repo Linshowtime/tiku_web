@@ -42,6 +42,29 @@ export function searchTestPaperByPage(param, pageNo, pageSize) {
     data: param
   })
 }
+export function deleteTestPaper(testPaperId) {
+  return fetch({
+    url: _global.requestUrl.deletePaperUrl + testPaperId ,
+    method: 'get',
+    params: null
+  })
+}
+  export function modifyTestPaper(param) {
+    return fetch({
+      url: _global.requestUrl.modifyPaperUrl,
+      method: 'post',
+      data: param
+    })
+  }
+    export function addTestPaper(param) {
+      return fetch({
+        url: _global.requestUrl.addPaperUrl,
+        method: 'post',
+        data: param
+      })
+    }
+
+
 
 /**
  * 保存试卷
@@ -74,5 +97,8 @@ export default {
   deleteSubjectFromTestPaper,
   searchTestPaperByPage,
   saveTestPaper,
-  getTestPaperQuestions
+  getTestPaperQuestions,
+  deleteTestPaper,
+  modifyTestPaper,
+  addTestPaper
 }
