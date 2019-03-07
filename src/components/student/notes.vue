@@ -7,14 +7,14 @@
     <el-row class="row">
      <el-col :span="24" >
       <el-form ref="infoForm" :model="infoForm" :rules="rules" >
-       <el-form-item label="标题" prop="a_title">
-        <el-input v-model="infoForm.a_title"></el-input>
+       <el-form-item label="标题" prop="title">
+        <el-input v-model="infoForm.title"></el-input>
        </el-form-item>
   <!--使用编辑器
   -->
-       <el-form-item label="详细">
+       <el-form-item label="详细" prop="content">
         <div class="edit_container">
-         <quill-editor v-model="infoForm.a_content"
+         <quill-editor v-model="infoForm.content"
                                      ref="myQuillEditor"
                                      class="editer"
                                      :options="editorOption" @ready="onEditorReady($event)">
@@ -34,20 +34,21 @@
  
 <script>
   import { quillEditor } from 'vue-quill-editor' //调用编辑器
+  import commonService from '@/common/service/commonService'
   export default {
     data() {
       return {
         infoForm: {
-          a_title: '',
-          a_content:'',
-          editorOption: {}
+          title: '',
+          content:'',
+          registerNo:''
         },
         //表单验证
         rules: {
-          a_title: [
+          title: [
             {required: true, message: '请输入标题', trigger: 'blur'}
           ],
-          a_content: [
+          content: [
             {required: true, message: '请输入详细内容', trigger: 'blur'}
           ]
         },
@@ -59,30 +60,24 @@
       }
     },
     mounted() {
-      //初始化
+      commonService.getNote(sessionStorage.getItem('registerNo')).then(res=>{
+        if(res.data.data!=null) {
+          this.infoForm = res.data.data;
+        }
+      })
     },
     methods: {
       onEditorReady(editor) {
       },
       onSubmit() {
-        //提交
-//this.$refs.infoForm.validate，这是表单验证
+        this.infoForm.registerNo=sessionStorage.getItem('registerNo');
         this.$refs.infoForm.validate((valid) => {
           if(valid) {
-            this.$post('m/add/about/us',this.infoForm).then(res => {
-              if(res.errCode == 200) {
-                this.$message({
-                  message: res.errMsg,
-                  type: 'success'
-                });
-                this.$router.push('/aboutus/aboutlist');
-              } else {
-                this.$message({
-                  message: res.errMsg,
-                  type:'error'
-                });
-              }
-            });
+           commonService.saveNote(this.infoForm).then(res=>{
+             if(res.data.code==0){
+               alert("保存成功")
+             }
+           })
           }
         });
       }

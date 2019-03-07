@@ -19,8 +19,7 @@
                      <el-col :span="10" style="text-align: left">
                        {{obj.value}}
                      </el-col>
-
-                     <!--<paper-type-chart v-bind:chartData="pieData"></paper-type-chart>-->
+                     <paper-type-chart v-bind:chartData="pieData"></paper-type-chart>
                    </el-row>
                  </div>
                  <div v-else><el-row class="row">目前试卷为空</el-row></div>
@@ -58,10 +57,10 @@
                  </div>
                </el-row>
                <el-row class="subjectInfo">
-                 <el-col :span="2" offset=14>
+                 <el-col :span="2" offset=17>
                    <el-button type="text"  @click="see(subject)">查看解析</el-button>
                  </el-col>
-                 <el-col :span="2" offset=1>
+                 <el-col :span="2" offset=1 v-if="mode==1">
                    <div v-if="selectSubjectIds.indexOf(subject) ===-1">
                      <el-button type="text" v-on:click="selectSubject(subject,'select')" >确认选择</el-button>
                    </div>
@@ -80,7 +79,7 @@
      <el-col :span="3"><div class="grid-content"></div></el-col>
    </el-row>
    <subject-diglog v-bind:parentsubject="subject" v-bind:newDialogVisible="newDialogVisible" v-bind:rand="rand"  ></subject-diglog>
-   <entry-paper-edit ref="entryPaperEdit"></entry-paper-edit>
+   <entry-paper-edit ref="entryPaperEdit"  v-if="mode==1"></entry-paper-edit>
 
 
    <message-dialog v-bind:message="msgDialogValue" v-bind:messageVisible="msgVisible" v-on:visable="childByValue"></message-dialog>
@@ -109,6 +108,7 @@
           paperId: '',
           num:7,
           radio:0.7,
+          mode:'',
           paper:{},
           srcPaper:{},
           subjectType:{},
@@ -149,22 +149,26 @@
               this.selectSubjectIds.push(subject);
               var param = {};
               if(this.srcPaper) {
-                param['paperId']= this.srcPaper.list[0].id;
+                param['examPaperId']= this.srcPaper.list[0].id;
               }
               param["subjectId"]=subject.id;
-              testPaperService.addTestPaper(param).then(res=>{
-                this._global.paperUtil.flushSrcPaperSubjectSum(subject,'add');
-                this.$refs.entryPaperEdit.flushSubject();
+              testPaperService.addSubjectToTestPaper(param).then(res=>{
+                if(res.data.code==0) {
+                  this._global.paperUtil.flushSrcPaperSubjectSum(subject, 'add');
+                  this.$refs.entryPaperEdit.flushSubject();
+                }else{
+                  alert(res.data.msg)
+                }
               })
             }
           }else{
             this.selectSubjectIds.splice(this.selectSubjectIds.indexOf(subject), 1);
             var param = {};
             if(this.srcPaper) {
-              param['paperId']= this.srcPaper.list[0].id;
+              param['examPaperId']= this.srcPaper.list[0].id;
             }
             param["subjectId"]=subject.id;
-            testPaperService.deleteTestPaper(param).then(res=>{
+            testPaperService.deleteSubjectFromTestPaper(param).then(res=>{
               alert("取消成功");
               //更新试卷题目数
               this._global.paperUtil.flushSrcPaperSubjectSum(subject,'del');
@@ -186,6 +190,7 @@
       },
       mounted(){
         this.paperId=this.$route.query.paperId;
+        this.mode = this.$route.query.mode;
         this.srcPaper=this._global.storage.getSession('srcPaper');
         if(!this.paperId){
             alert('请确定选择试卷');
@@ -210,7 +215,6 @@
           //计算试卷中题目类型，以及每种类型题目数量
           for(var i=0; i<this.subjectList.length; i++){
             var type = this.subjectList[i].subjectTypeId;
-
             if(this.subjectType.hasOwnProperty(type)){
               Vue.set(this.subjectType,type,this.subjectType[type]+1)
             }else{

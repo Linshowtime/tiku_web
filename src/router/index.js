@@ -20,7 +20,9 @@ import Student from '@/components/student/student'
 import exam from '@/components/student/exam'
 import notes from '@/components/student/notes'
 import exercise from '@/components/student/exercise'
+import onExam from '@/components/student/onExam'
 import wrong from '@/components/student/wrong'
+import result from '@/components/student/result'
 import Teacher from '@/components/teacher/teacher'
 import paper from '@/components/teacher/paper'
 import Class from '@/components/teacher/class'
@@ -40,7 +42,7 @@ export default new Router({
       path: '/home',
       name: 'home',
       meta: {
-        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+        requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
         role :2
       },
       component: Home
@@ -49,9 +51,17 @@ export default new Router({
       path: '/register',
       name: 'register',
       meta: {
-        requireAuth: false, // 添加该字段，表示进入这个路由是需要登录的
+        requireAuth: false// 添加该字段，表示进入这个路由是需要登录的
       },
       component: Register
+    },
+    {
+      path: '/result',
+      name: 'result',
+      meta: {
+        requireAuth: false, // 添加该字段，表示进入这个路由是需要登录的
+      },
+      component: result
     },
     {
       path: '/knowledgeSubject',
@@ -108,11 +118,22 @@ export default new Router({
       component:examPaper
     },
     {
+      path:'/onExam',
+      name:'onExam',
+      meta: {
+        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+        role :0,
+        auth:true
+      },
+      component:onExam
+    },
+    {
       path:'/student',
       name:'student',
       meta: {
         requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-        role :0
+        role :0,
+        auth:false
       },
       component:Student,
       children: [
@@ -163,7 +184,8 @@ export default new Router({
       name:'teacher',
       meta: {
         requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-        role :1
+        role :1,
+        auth:false
       },
       component:Teacher,
       children:[

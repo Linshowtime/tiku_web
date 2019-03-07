@@ -193,7 +193,7 @@
           questionService.searchQuestionByPage(this.queryModel, this.currentPage, process.env.PageSize).then(res => {
 
               this.subjectList = res.data.data;
-              this.pages = res.data.data.page_totals;
+              this.pages = res.data.data.page_total;
               this.queryModel.knowledgeId=''
 
           })
@@ -208,7 +208,6 @@
           this.search();
         },
         childByValue: function (knowledgeId) {
-          alert(JSON.stringify(knowledgeId))
           this.queryModel.knowledgeId = knowledgeId;
 
           this.search();
@@ -229,7 +228,6 @@
         if(this.paperId!=null){
           var param={}
           param["id"]=this.paperId;
-          this._global.storage.setSession('srcPaperSubjectSum',0)
           testPaperService.searchTestPaperByPage(param,1,5).then(res=>{
             this.editPaper = res.data.data;
             this._global.storage.setSession('srcPaper',this.editPaper)
@@ -244,9 +242,11 @@
             this.$router.push('paperManage');
           }
         }
-        if(this.editPaper){
+        if(this.editPaper!=null){
           testPaperService.getTestPaperQuestions(this.editPaper.list[0].id).then(res=>{
             this.selectSubjectIds=res.data.data;
+            this._global.storage.setSession('srcPaperSubjectSum',res.data.data.length)
+            this.$refs.entryPaperEdit.flushSubject();
           })
 
         }

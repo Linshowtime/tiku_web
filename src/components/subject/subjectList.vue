@@ -77,19 +77,23 @@
             }
             param["subjectId"]=subject.id;
             testPaperService.addSubjectToTestPaper(param).then(res =>{
-              this._global.paperUtil.flushSrcPaperSubjectSum(subject,'add');
-              this.$refs.entryPaperEdit.flushSubject();
+              if(res.data.code==0) {
+                this._global.paperUtil.flushSrcPaperSubjectSum(subject, 'add');
+                this.$refs.entryPaperEdit.flushSubject();
+              }else{
+                alert(res.data.msg);
+              }
             })
           }
         }else{
           this.selectSubjectIds.splice(this.selectSubjectIds.indexOf(subject), 1);
-          var param = {};
+          var param1 = {};
           if(this.paper) {
-            param['examPaperId']= this.paper.list[0].id;
+            param1['examPaperId']= this.paper.list[0].id;
           }
-          param["subjectId"]=subject.id;
+          param1["subjectId"]=subject.id;
           if(this.paper) {
-            testPaperService.deleteSubjectFromTestPaper(param).then(res =>{
+            testPaperService.deleteSubjectFromTestPaper(param1).then(res =>{
               alert("取消成功");
               this._global.paperUtil.flushSrcPaperSubjectSum(subject,'del');
               this.$refs.entryPaperEdit.flushSubject();

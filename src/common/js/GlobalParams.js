@@ -15,6 +15,12 @@ export const requestUrl = {
   addTeacherUrl: process.env.Human_Service_URL +'/user/api/addTeacher',
   updateTeacherUrl: process.env.Human_Service_URL +'/user/api/updateTeacher',
   authTeacherUrl: process.env.Human_Service_URL +'/user/api/authTeacher',
+  addClassUrl: process.env.Human_Service_URL+'/class/api/add',
+  getOrgIdUrl: process.env.Human_Service_URL+'/user/api/orgId/',
+  modifyClassUrl: process.env.Human_Service_URL+'/class/api/modify',
+  getClassByRegisterNoUrl: process.env.Human_Service_URL+'/class/api/searchClass/',
+  addStudentToClassUrl: process.env.Human_Service_URL+'/class/api/add/student',
+  removeStudentFromClassUrl: process.env.Human_Service_URL+'/class/api/remove/student',
   //获取顶级学科
   getTopSubjectUrl: process.env.Human_Service_URL + "/course/api/getAllCourse",
   // //获取所有年级
@@ -54,8 +60,18 @@ export const requestUrl = {
   deleteQuestionFromTestPaperUrl: process.env.Paper_Service_URL + 'delete/subject',
   //保存试卷
   saveTestPaperUrl: process.env.Paper_Service_URL + 'update/subject',
+ //发布考试
+  addExamRecordUrl: process.env.Paper_Service_URL+'add/exam/record',
+  //获取考试信息
+  searchExamRecordUrl: process.env.Paper_Service_URL+'get/exam/record',
+  //提交考试试卷
+  submitRecordAnswerUrl: process.env.Paper_Service_URL+'submit/record/answer/',
+  getExamResultUrl: process.env.Paper_Service_URL+'exam/result/',
+  getErrorRecordUrl: process.env.Paper_Service_URL+'record/error/',
 
 
+  getNoteUrl: process.env.Note_Service_URL+'get/',
+  saveNoteUrl: process.env.Note_Service_URL+'save',
   // //批量添加题目至试卷
   // batchAddQuestionsToTestPaperUrl: process.env.Paper_Service_URL + '/api/exam/paper/batchAddSubjectToPaper',
   // //批量删除试卷题目

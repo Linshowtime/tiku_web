@@ -36,7 +36,8 @@
             this.$router.push({
               path: '/paperSelect',
               query: {
-                paperId: paperId
+                paperId: paperId,
+                mode:1
               }
             })
 

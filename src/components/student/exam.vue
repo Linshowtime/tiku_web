@@ -16,7 +16,7 @@
             label="试卷名称"
             min-width="100" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.name}}</span>
+              <span>{{scope.row.paperName}}</span>
               </template>
           </el-table-column>
           <el-table-column
@@ -43,85 +43,96 @@
           <el-table-column label="操作" min-width="120"  align="center">
             <template slot-scope="scope">
               <el-button
-                v-if="scope.row.state==0"
-                size="mini"
-                type="text"><span style="color: red;font-size: 16px;text-decoration-line: underline;">开始考试</span></el-button>
+              v-if="scope.row.state==0&&compareTime(scope.row.startTime,scope.row.endTime)"
+              size="mini"
+              type="text" @click="goto(scope.row)"><span style="color: red;font-size: 16px;text-decoration-line: underline;">进入考试</span></el-button>
               <el-button
-                v-else
+                v-if="!compareTime(scope.row.startTime,scope.row.endTime)"
+                size="mini"
+                type="text"><span style="color: red;font-size: 16px;">不在考试时间内</span></el-button>
+              <el-button
                 size="mini"
                 type="text"
-                @click="reuse(scope.$index, scope.row)" ><span style="text-decoration-line: underline;font-size: 16px">查看结果</span></el-button>
+                v-if="scope.row.state==1"
+                @click="look(scope.row.id)" ><span style="text-decoration-line: underline;font-size: 16px">查看结果</span></el-button>
             </template>
           </el-table-column>
         </el-table>
-      </el-row>
-      <el-row>
-        <pager v-bind:totalPage="pages"  v-on:gotoNext="nextPage"></pager>
       </el-row>
     </el-card>
   </div>
 </template>
 
 <script>
-  import commonService from '@/common/service/commonService'
-  import knowledgeService from '@/common/service/knowledgeService'
-  import Pager from '@/components/pager'
+  import testPaperService from '@/common/service/testPaperService'
   export default {
     name: "exam",
     data(){
       return{
-        pages:1,
-        currentPage:1,  //当前页
-        // tableData:[{
-        //   name: '读写拼音',
-        //   state: '0',
-        //   subject:'语文'
-        // }, {
-        //   name: '字形',
-        //   state: '1',
-        //   subject:'语文'
-        // }, {
-        //   name: '作文',
-        //   state: '1',
-        //   subject:'语文'
-        // }, {
-        //   name: '听力',
-        //   state: '0',
-        //   subject:'英语'
-        // }]
-        tableData:[{
-          name:'附小六年级数学单元测试一',
-          startTime: '2019-2-26 12:00',
-          endTime: '2019-2-26 14:00',
-          state:0
-        },
-          {
-            name:'附小六年级英语单元测试一',
-            startTime: '2019-2-26 15:00',
-            endTime: '2019-2-26 17:00',
-            state:0
-          },
-          {
-            name:'附小六年级语文单元测试一',
-            startTime: '2019-2-26 18:00',
-            endTime: '2019-2-26 20:00',
-            state:1
-          }],
+        tableData:[
+        //   {
+        //   name:'附小六年级数学单元测试一',
+        //   startTime: '2019-2-26 12:00',
+        //   endTime: '2019-2-26 14:00',
+        //   state:0
+        // },
+        //   {
+        //     name:'附小六年级英语单元测试一',
+        //     startTime: '2019-2-26 15:00',
+        //     endTime: '2019-2-26 17:00',
+        //     state:0
+        //   },
+        //   {
+        //     name:'附小六年级语文单元测试一',
+        //     startTime: '2019-2-26 18:00',
+        //     endTime: '2019-2-26 20:00',
+        //     state:1
+        //   }
+          ],
       }
     },
     methods:{
       cellStyle({row, column, rowIndex, columnIndex}){
         return 'padding:0px;height:60px;font-size:16px'
       },
-      rowClass({ row, rowIndex}) {
+      rowClass({row, rowIndex}) {
         return 'background:#f7f7f7;padding:0px;color:#66b1ff;font-size:16px'
+      },
+      goto(row){
+        this.$router.push({
+          name: 'onExam',
+          params: {
+            paperId: row.paperId,
+            totalTime: row.totalTime,
+            recordId: row.id
+          }
+        })
+      },
+      compareTime(time1,time2){
+    var time = Date.parse( new Date());
+    var date1 = Date.parse(new Date(time1.replace(/-/g, '/')));
+    var date2 = Date.parse(new Date(time2.replace(/-/g, '/')));
+    if (date1<time&&date2>time) {
+      return true;
+    };
+    return false;
+  },
+      look(id){
+        this.$router.push({
+          path: '/result',
+          query: {
+            recordId: id
+          }
+        })
       }
     },
-    components:{
-      pager:Pager
-    },
     created:function () {
-
+      var param={};
+      param["type"]=1;
+      param["registerNo"]=sessionStorage.getItem('registerNo')
+      testPaperService.searchExamRecord(param).then(res=>{
+        this.tableData=res.data.data;
+      })
     }
   }
 </script>

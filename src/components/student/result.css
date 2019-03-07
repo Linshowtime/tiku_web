@@ -1,0 +1,65 @@
+.subject{
+  border:1px solid #EBEBEB;
+  margin: 10px;
+  #min-height: 90px;
+  text-align: left;
+}
+
+.subjectContent{
+  #min-height: 10px;
+  #line-height:10px;
+  color: #1794D8;
+  #text-decoration: underline;
+  font-size: 14px;
+  text-align: left;
+}
+.subjectOption{
+  font-size: 14px;
+  text-align: left;
+}
+.subjectInfo{
+  border-top:1px solid #EBEBEB;
+  min-height: 40px;
+  background: #FAFAFA;
+  line-height:40px;
+}
+
+.subject:hover{
+
+  background: #E9F8FD;
+  border:2px solid #83C6E9;
+}
+
+.row{
+  border-top:1px solid #EBEBEB;
+  min-height: 55px;
+  line-height: 55px;
+}
+
+.margin-row{
+  margin: 10px;
+  border-radius: 10px;
+  border-top:1px solid #EBEBEB;
+}
+
+.paperTitle{
+  font-size: 20px;
+  background: #F3F7F8;
+}
+
+.bk{
+  background: #F3F7F8;
+}
+
+.subjectType{
+  text-align: left;
+}
+
+.wihteSubject{
+  height: 200px;
+  margin-top: 100px;
+}
+.hasSubject{
+  text-align: left;
+}
+

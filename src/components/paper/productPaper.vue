@@ -189,7 +189,8 @@ export default {
         paperTypeId:'',
         areaId:'',
         periodId:'',
-        courseId:''
+        courseId:'',
+        state:1
       },
       commonlyAreas: [{
       id:1,

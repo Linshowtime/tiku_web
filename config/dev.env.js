@@ -16,5 +16,6 @@ module.exports = merge(prodEnv, {
   Org_Service_URL:'"http://localhost:8081"',
   Knowledge_Service_URL:'"http://127.0.0.1:8089/api/knowledge/"',
   Paper_Service_URL:'"http://127.0.0.1:8089/api/paper/"',
+  Note_Service_URL:'"http://127.0.0.1:8089/api/note/"',
   PageSize:'"20"'
 })

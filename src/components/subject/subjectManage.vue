@@ -25,10 +25,10 @@
               <el-col :span="2" v-if="subject.publish==0"><el-button type="text" @click="publishSubject(subject)">发布</el-button></el-col>
               <el-col :span="3" v-if="subject.publish==1"><el-button type="text" style="color:red">已发布</el-button></el-col>
             </el-row>
-          <subject-diglog v-bind:parentsubject="subject" v-bind:newDialogVisible="newDialogVisible" v-bind:rand="rand"  v-on:subjectvisable="childBysubjectValue" ></subject-diglog>
         </div>
         <pager v-bind:totalPage="pages"  v-on:gotoNext="nextPage"></pager>
     </el-card>
+    <subject-diglog v-bind:parentsubject="subject" v-bind:newDialogVisible="newDialogVisible" v-bind:rand="rand"  v-on:subjectvisable="childBysubjectValue" ></subject-diglog>
     <el-dialog
       @close="dialogCls"
       :visible.sync="addVisible"
@@ -44,7 +44,7 @@
           :value="item.id">
         </el-option>
       </el-select></div>
-      <div style="height: 100%;text-align: left;margin-bottom: 15px"><el-select placeholder="机构" v-model="updateSubjectModel.orgId"  @change="ChangeCourse(updateSubjectModel.courseId)">
+      <div style="height: 100%;text-align: left;margin-bottom: 15px"><el-select placeholder="机构" v-model="addSubjectModel.orgId"  @change="ChangeCourse(updateSubjectModel.courseId)">
         <el-option
           v-for="item in orgs"
           :key="item.id"
@@ -265,7 +265,6 @@
         this.updateSubjectModel.choice3=subject.choice3;
         this.updateSubjectModel.choice4=subject.choice4;
         this.updateSubjectModel.content=subject.content;
-        this.updateSubjectModel.knowledgeId=subject.knowledgeId;
         this.updateSubjectModel.courseId=subject.courseId;
         this.updateSubjectModel.id=subject.id;
         this.updateSubjectModel.answer=subject.answer;

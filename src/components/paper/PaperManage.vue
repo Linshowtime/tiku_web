@@ -8,7 +8,7 @@
        <el-col span="3"><el-button type="danger"  @click="autocreate">智能创建试卷</el-button></el-col>
      </el-row>
    <div v-for="paper in papers" class="paperItem">
-     <el-button type="text" ><div class="paperItemName" >{{paper.name}}</div></el-button>
+     <el-button type="text" @click="goto(paper.id)" ><div class="paperItemName" >{{paper.name}}</div></el-button>
      <div class="paperItemScore">
        <el-row>
          <el-col :span="4">
@@ -20,31 +20,31 @@
          <el-col :span="14"  style="text-align: right;">
            <div style="margin-right: 10px;">创建时间:{{paper.createDate}}</div>
          </el-col>
-         <el-col :span="2" style="text-align: right" v-if="paper.type==0">
+         <el-col :span="2" style="text-align: right" v-if="paper.type==0&&paper.state!=1">
            <el-button type="text"  @click="modifyPaper(paper)" >修改试卷</el-button>
          </el-col>
-         <el-col :span="2" style="text-align: right" v-if="paper.type==0">
+         <el-col :span="2" style="text-align: right" v-if="paper.type==0&&paper.state!=1">
            <el-button type="text"  @click="selectSubject(paper.id)">进入选题</el-button>
          </el-col>
          <el-col :span="2" style="text-align: right">
-           <el-button type="text"  @click="deletePaper(paper.id)"v-if="paper.type==0" ><span style="color: red">删除此卷 </span></el-button>
+           <el-button type="text"  @click="deletePaper(paper.id)"v-if="paper.type==0&&paper.state!=1" ><span style="color: red">删除此卷 </span></el-button>
          </el-col>
-         <el-col :span="3" style="text-align: right" v-if="paper.type==1">
+         <el-col :span="3" style="text-align: right" v-if="paper.type==1||paper.state==1">
            <el-button type="text"  @click="modifyPaper(paper)" >修改试卷</el-button>
          </el-col>
          <el-col :span="3" style="text-align: right">
-           <el-button type="text"  @click="deletePaper(paper.id)"v-if="paper.type==1" ><span style="color: red">删除此卷 </span></el-button>
+           <el-button type="text"  @click="deletePaper(paper.id)"v-if="paper.type==1||paper.state==1" ><span style="color: red">删除此卷 </span></el-button>
          </el-col>
        </el-row>
      </div>
-     <el-row style="margin-top: 10px;">
+   </div>
+     <el-row style="margin-top: 10px;text-align: center">
        <pager v-bind:totalPage="pages" v-on:gotoNext="nextPage"></pager>
      </el-row>
-   </div>
    </el-col>
+   </el-row>
    <!-- 右侧空白列-->
    <el-col :span="3"><div class="grid-content"></div></el-col>
-   </el-row>
    <el-dialog
      @close="dialogCls"
      :visible.sync="addVisible"
@@ -68,6 +68,14 @@
          :value="item.id">
        </el-option>
      </el-select></div>
+  <div style="height: 100%;text-align: left;margin-bottom: 15px"><el-select placeholder="机构" v-model="addPaperModel.orgId" >
+    <el-option
+      v-for="item in orgs"
+      :key="item.id"
+      :label="item.name"
+      :value="item.id">
+    </el-option>
+  </el-select></div>
      <div style="height: 100%;text-align: left;margin-bottom: 15px"><el-select placeholder="期数" v-model="addPaperModel.periodId" >
        <el-option
          v-for="item in periods"
@@ -131,6 +139,7 @@
         currentPage: 1,
         courses:[],
         grades:[],
+        orgs:[],
         updateVisible:false,
         difficultys:[{
           id:1,
@@ -195,6 +204,7 @@
           periodId:'',
           paperTypeId:'',
           areaId:'',
+          orgId:'',
           type:'',
           selectCount:'',
           judgeCount:'',
@@ -258,6 +268,17 @@
             paperId: id
           }
         })
+      },
+      goto:function (paperId) {
+        this.$router.push({
+          path: '/paperSelect',
+          query: {
+            paperId: paperId,
+            mode:0
+          }
+        })
+
+
       }
 
     },
@@ -273,6 +294,9 @@
       // 获取年级信息
       commonService.getAllGrade().then(res=>{
         this.grades = res.data.data;
+      });
+      commonService.getOrgs().then(res=>{
+        this.orgs=res.data.data;
       });
     }
   }

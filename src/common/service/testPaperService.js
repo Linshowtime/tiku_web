@@ -20,11 +20,11 @@ export function addSubjectToTestPaper(testPaperSubject) {
  * @param subjectId
  * @returns {*}
  */
-export function deleteSubjectFromTestPaper(testPaperId, subjectId) {
+export function deleteSubjectFromTestPaper(param) {
   return fetch({
-    url: _global.requestUrl.deleteQuestionFromTestPaperUrl + testPaperId + '/' + subjectId,
-    method: 'get',
-    params: null
+    url: _global.requestUrl.deleteQuestionFromTestPaperUrl,
+    method: 'post',
+    data: param
   })
 }
 
@@ -78,7 +78,42 @@ export function saveTestPaper(subjectList) {
     data: subjectList
   })
 }
-
+/**
+* 发布考试
+* @param subjectList
+* @returns {*}
+*/
+export function addExamRecord(param) {
+  return fetch({
+    url: _global.requestUrl.addExamRecordUrl,
+    method: 'post',
+    data: param
+  })
+}
+/**
+ * 获取考试信息
+ * @param subjectList
+ * @returns {*}
+ */
+export function searchExamRecord(param) {
+  return fetch({
+    url: _global.requestUrl.searchExamRecordUrl,
+    method: 'post',
+    data: param
+  })
+}
+/**
+ * 提交考试试卷
+ * @param subjectList
+ * @returns {*}
+ */
+export function submitRecordAnswer(recordId,param) {
+  return fetch({
+    url: _global.requestUrl.submitRecordAnswerUrl+recordId,
+    method: 'post',
+    data: param
+  })
+}
 /**
  * 根据试卷id获取试卷题目
  * @param testPaperId
@@ -91,7 +126,30 @@ export function getTestPaperQuestions(testPaperId) {
     params: null
   })
 }
-
+/**
+ * 获取考试结果
+ * @param recordId
+ * @returns {*}
+ */
+export function getExamResult(recordId) {
+  return fetch({
+    url: _global.requestUrl.getExamResultUrl + recordId,
+    method: 'get',
+    params: null
+  })
+}
+/**
+ * 获取错题本
+ * @param registerNo
+ * @returns {*}
+ */
+export function getErrorRecord(registerNo) {
+  return fetch({
+    url: _global.requestUrl.getErrorRecordUrl + registerNo,
+    method: 'get',
+    params: null
+  })
+}
 export default {
   addSubjectToTestPaper,
   deleteSubjectFromTestPaper,
@@ -100,5 +158,10 @@ export default {
   getTestPaperQuestions,
   deleteTestPaper,
   modifyTestPaper,
-  addTestPaper
+  addTestPaper,
+  addExamRecord,
+  searchExamRecord,
+  submitRecordAnswer,
+  getExamResult,
+  getErrorRecord
 }

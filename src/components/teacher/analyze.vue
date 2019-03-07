@@ -1,5 +1,5 @@
 <template>
-  <span>该功能尚未开发完成</span>
+  <span>该功能后续完善</span>
 </template>
 
 <script>

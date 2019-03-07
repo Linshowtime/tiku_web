@@ -162,11 +162,15 @@
           return;
         }
         commonService.authStudent(param).then(res=>{
-          this.auth=1;
-          sessionStorage.setItem('auth',1);
+          if(res.data.code==0) {
+            this.auth = 1;
+            sessionStorage.setItem('auth', 1);
+          }
+          else {
+            alert(res.data.msg);
+          }
           this.dialogVisible1=false;
         });
-        this.dialogVisible1=false;
       },
       //退出登录
       logout: function () {

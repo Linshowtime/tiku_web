@@ -19,13 +19,13 @@
       <span style="font-weight: bolder">解析:</span><span v-html="cssFormat(parentsubject.analysis) "></span>
     </el-row>
     <el-row style="text-align: left">
-      <span style="font-weight: bolder">难易度:</span> <span v-if="parentsubject.difficulty ===0">
+      <span style="font-weight: bolder">难易度:</span> <span v-if="parentsubject.difficulty ===1">
       易
     </span>
-      <span v-if="parentsubject.difficulty ===1">
+      <span v-if="parentsubject.difficulty ===2">
       中
     </span>
-      <span v-if="parentsubject.difficulty ===2">
+      <span v-if="parentsubject.difficulty ===3">
       难
     </span>
     </el-row>

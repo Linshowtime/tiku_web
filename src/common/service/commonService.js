@@ -174,6 +174,62 @@ export function addTeacher(param) {
     data: param
   })
 }
+export function addClass(param) {
+  return fetch({
+    url: _global.requestUrl.addClassUrl,
+    method: 'post',
+    data: param
+  })
+}
+export function modifyClass(param) {
+  return fetch({
+    url: _global.requestUrl.modifyClassUrl,
+    method: 'post',
+    data: param
+  })
+}
+export function getClassByRegisterNo(registerNo) {
+  return fetch({
+    url: _global.requestUrl.getClassByRegisterNoUrl + registerNo,
+    method: 'get',
+    params: null
+  })
+}
+export function addStudentToClass(param) {
+  return fetch({
+    url: _global.requestUrl.addStudentToClassUrl,
+    method: 'post',
+    data: param
+  })
+}
+export function removeStudentFromClass(param) {
+  return fetch({
+    url: _global.requestUrl.removeStudentFromClassUrl,
+    method: 'post',
+    data: param
+  })
+}
+export function getOrgId(registerNo) {
+  return fetch({
+    url: _global.requestUrl.getOrgIdUrl+registerNo,
+    method: 'get',
+    params: null
+  })
+}
+export function getNote(registerNo) {
+  return fetch({
+    url: _global.requestUrl.getNoteUrl+registerNo,
+    method: 'get',
+    params: null
+  })
+}
+export function saveNote(param) {
+  return fetch({
+    url: _global.requestUrl.saveNoteUrl,
+    method: 'post',
+    data: param
+  })
+}
 /**
  *
  * @returns {*}
@@ -207,5 +263,13 @@ export default {
   authTeacher,
   authStudent,
   updateUser,
-  getAllGrade
+  getAllGrade,
+  addClass,
+  modifyClass,
+  getClassByRegisterNo,
+  addStudentToClass,
+  removeStudentFromClass,
+  getOrgId,
+  getNote,
+  saveNote
 }

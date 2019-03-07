@@ -160,8 +160,13 @@
           return;
         }
         commonService.authTeacher(param).then(res=>{
-          this.auth=1;
-          sessionStorage.setItem('auth',1);
+          if(res.data.code==0) {
+            this.auth = 1;
+            sessionStorage.setItem('auth', 1);
+          }
+          else {
+            alert(res.data.msg)
+          }
           this.dialogVisible1=false;
         });
       },

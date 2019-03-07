@@ -23,10 +23,7 @@
           gotoEditPaper:function() {
             var paper = this._global.storage.getSession('srcPaper');
 
-            this.$router.push({ path: '/paperEdit',
-              query: {
-                paperId: paper.list[0].id
-              }
+            this.$router.push({ path: '/paperEdit'
             })
 
           },
